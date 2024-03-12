@@ -13,6 +13,7 @@ from flask_jwt_extended import (
 class Login(Resource):
     def post(self):
         try:
-            
+            # Get user input data (email/username, password)
+            data = request.json
         except Exception as e:
             return {'error': 'Invalid credentials'}, 403
