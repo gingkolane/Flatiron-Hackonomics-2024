@@ -9,3 +9,7 @@ from flask_jwt_extended import (
     set_access_cookies,
     set_refresh_cookies
 )
+
+class Login(Resource):
+    def post(self):
+        pass
