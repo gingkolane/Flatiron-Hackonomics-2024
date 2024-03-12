@@ -19,7 +19,8 @@ class Login(Resource):
             user = User.query.filter_by(email=data.get('email')).first()
             # Check if user exists and authenticate
             if user and user.authenticate(data.get('password')):
-                pass
+                # Create an access token for the user using id
+                jwt = create_access_token(identity=user.id)
             return {'error': 'Invalid email or password'}, 403
         except Exception as e:
             return {'error': 'Invalid credentials'}, 403
