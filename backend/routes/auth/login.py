@@ -23,7 +23,9 @@ class Login(Resource):
                 jwt = create_access_token(identity=user.id)
                 # Manually set refresh token
                 refresh_token = create_refresh_token(identity=user.id)
-                
+                # Prepackage the response using data
+                user_data = user.to_dict()
+                response = make_response(user_data, 200)
             return {'error': 'Invalid email or password'}, 403
         except Exception as e:
             return {'error': 'Invalid credentials'}, 403
