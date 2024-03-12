@@ -12,7 +12,7 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   return (
     // some test tailwind classes
-    <View className="bg-green-700 flex h-screen justify-center">
+    <View className="flex bg-magnetic-plum grey h-screen justify-center p-10">
       <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen
