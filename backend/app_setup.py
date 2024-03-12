@@ -8,6 +8,7 @@ from flask_restful import Api
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import MetaData
 from flask_bcrypt import Bcrypt
+from datetime import timedelta
 import os
 
 # Local imports
@@ -19,6 +20,16 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.json.compact = False
 app.config['SQLALCHEMY_ECHO'] = True
 app.secret_key = os.environ.get('APP_SECRET')
+app.config['JWT_SECRET_KEY'] = os.environ.get('JWT_SECRET_KEY')
+app.config["PROPAGATE_EXCEPTIONS"] = True
+app.config['CLIENT_ID'] = os.environ.get('G_CLIENT_ID')
+app.config["JWT_COOKIE_SECURE"] = True
+app.config['JWT_TOKEN_LOCATION'] = ["headers", "cookies", "json", "query_string"]
+# CHANGE TO 15 MINUTES WHEN READY (Short time for testing)
+app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(minutes=5)
+# CHANGE TO 3 DAYS WHEN READY (Short time for testing)
+app.config['JWT_REFRESH_TOKEN_EXPIRES'] = timedelta(minutes=5)
+app.config['JWT_COOKIE_CSRF_PROTECT'] = True
 
 # Define metadata, instantiate db
 metadata = MetaData(naming_convention={
