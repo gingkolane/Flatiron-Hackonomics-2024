@@ -12,4 +12,7 @@ from flask_jwt_extended import (
 
 class Login(Resource):
     def post(self):
-        pass
+        try:
+            
+        except Exception as e:
+            return {'error': 'Invalid credentials'}, 403
