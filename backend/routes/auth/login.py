@@ -26,6 +26,10 @@ class Login(Resource):
                 # Prepackage the response using data
                 user_data = user.to_dict()
                 response = make_response(user_data, 200)
+                # Set both cookies on the response- will be sent along with every request until unset
+                set_access_cookies(response, jwt)
+                set_refresh_cookies(response, refresh_token)
+                return response
             return {'error': 'Invalid email or password'}, 403
         except Exception as e:
             return {'error': 'Invalid credentials'}, 403
