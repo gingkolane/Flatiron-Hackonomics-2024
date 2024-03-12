@@ -1,9 +1,9 @@
 import { StatusBar } from "expo-status-bar";
-import { Text, View } from "react-native";
+import { Text, View, SafeAreaView } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomeScreen from "./components/HomeScreen";
-
+import "./app.css";
 import SignIn from "./components/SignIn";
 import SignUp from "./components/SignUp";
 
@@ -12,13 +12,13 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   return (
     // some test tailwind classes
-    <View className="flex bg-magnetic-plum grey h-screen justify-center p-10">
+    <SafeAreaView className="flex h-screen justify-center bg-money-green">
       <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen
             name="Home"
             component={HomeScreen}
-            options={{ title: "Welcome" }}
+            options={{ title: "Welcome to Money Magnet" }}
           />
           <Stack.Screen
             name="SignIn"
@@ -34,6 +34,6 @@ export default function App() {
 
         <StatusBar style="auto" />
       </NavigationContainer>
-    </View>
+    </SafeAreaView>
   );
 }

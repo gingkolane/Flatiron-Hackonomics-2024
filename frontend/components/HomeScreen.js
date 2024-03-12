@@ -3,7 +3,7 @@ import React from "react";
 
 const HomeScreen = ({ navigation }) => {
   return (
-    <View className="bg-black">
+    <>
       <Button
         title="Sign In"
         onPress={() => navigation.navigate("SignIn", { name: "Sign In" })}
@@ -12,7 +12,7 @@ const HomeScreen = ({ navigation }) => {
         title="Sign Up"
         onPress={() => navigation.navigate("SignUp", { name: "Sign Up" })}
       />
-    </View>
+    </>
   );
 };
 export default HomeScreen;
