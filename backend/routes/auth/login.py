@@ -21,6 +21,9 @@ class Login(Resource):
             if user and user.authenticate(data.get('password')):
                 # Create an access token for the user using id
                 jwt = create_access_token(identity=user.id)
+                # Manually set refresh token
+                refresh_token = create_refresh_token(identity=user.id)
+                
             return {'error': 'Invalid email or password'}, 403
         except Exception as e:
             return {'error': 'Invalid credentials'}, 403
