@@ -17,5 +17,9 @@ class Login(Resource):
             data = request.json
             # Query database by user email
             user = User.query.filter_by(email=data.get('email')).first()
+            # Check if user exists and authenticate
+            if user and user.authenticate(data.get('password')):
+                pass
+            return {'error': 'Invalid email or password'}, 403
         except Exception as e:
             return {'error': 'Invalid credentials'}, 403
