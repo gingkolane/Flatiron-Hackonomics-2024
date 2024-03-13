@@ -26,6 +26,9 @@ class Register(Resource):
                     new_user.password_hash = request.json.get('password')
                     db.session.add(new_user)
                     db.session.commit()
+
+                    jwt = create_access_token(identity=new_user.id)
+                    refresh_token = create_refresh_token(identity=new_user.id)
                     
                 except Exception as e:
                     db.session.rollback()
