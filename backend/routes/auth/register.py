@@ -31,6 +31,9 @@ class Register(Resource):
                     refresh_token = create_refresh_token(identity=new_user.id)
                     response = make_response(new_user, 201)
 
+                    set_access_cookies(response, jwt)
+                    set_refresh_cookies(response, refresh_token)
+
                     return response
                 except Exception as e:
                     db.session.rollback()
