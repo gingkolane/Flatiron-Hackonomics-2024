@@ -24,6 +24,8 @@ class Register(Resource):
                 try:
                     new_user = User(first_name=user_data.get('first_name'), last_name=user_data.get('last_name'), email=user_data.get('email'))
                     new_user.password_hash = password
+                    db.session.add(new_user)
+                    db.session.commit()
                     
                 except Exception as e:
                     db.session.rollback()
