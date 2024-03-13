@@ -12,6 +12,10 @@ const HomeScreen = ({ navigation }) => {
         title="Sign Up"
         onPress={() => navigation.navigate("SignUp", { name: "Sign Up" })}
       />
+      <Button
+        title="Go to Transactions"
+        onPress={() => navigation.navigate("TransactionPage")}
+      />
     </>
   );
 };
