@@ -11,4 +11,7 @@ from flask_jwt_extended import (
 
 class Register(Resource):
     def post(self):
-        pass
+        if (email := request.json.get('email')) and (password := request.json.get('password')):
+            pass
+        else:
+            return {'error': 'The server was unable to retrieve your information'}, 400
