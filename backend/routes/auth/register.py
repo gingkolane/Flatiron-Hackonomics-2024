@@ -12,12 +12,19 @@ from flask_jwt_extended import (
 
 class Register(Resource):
     def post(self):
-        if (email := request.json.get('email')) and (password := request.json.get('password')):
-            if (User.query.filter_by(email=email).first()):
+        user_data = {
+            'first_name': request.json.get('first_name'),
+            'last_name': request.json.get('last_name'),
+            'email': request.json.get('email')
+        }
+        if (user_data.get('first_name')) and (user_data.get('last_name')) and (user_data.get('email')) and (password := request.json.get('password')):
+            if (User.query.filter_by(email=user_data.get('email')).first()):
                 return {'error': 'Email already exists'}, 409 
             else:
                 try:
-                    pass
+                    new_user = User(first_name=user_data.get('first_name'), last_name=user_data.get('last_name'), email=user_data.get('email'))
+                    new_user.password_hash = password
+                    
                 except Exception as e:
                     db.session.rollback()
                     return {'error': 'Could not validate information'}, 400
