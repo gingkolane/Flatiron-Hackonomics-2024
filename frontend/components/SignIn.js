@@ -5,9 +5,33 @@ const SignIn = ({ navigation, route }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const login = async () => {
+    try {
+      const response = await fetch("/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: email,
+          password: password,
+        }),
+      });
+      if (!response.ok) {
+        throw new Error("Login failed");
+      }
+      const data = await response.json();
+      // Handle success, e.g., navigate, save tokens, etc.
+      Alert.alert("Login Success", "You're logged in!");
+      // Example navigation
+      navigation.navigate("Dashboard");
+    } catch (error) {
+      //   Alert.alert("Login Failed", error.message);
+      console.log(error);
+    }
+  };
   const handleLogin = () => {
-    // Here you would usually check the credentials against a backend service.
-    // For now, we'll just display an alert.
+    login();
     Alert.alert("Login Attempt", `Email: ${email}, Password: ${password}`);
   };
 
