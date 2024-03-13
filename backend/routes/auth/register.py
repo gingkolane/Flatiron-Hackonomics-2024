@@ -12,12 +12,12 @@ from flask_jwt_extended import (
 
 class Register(Resource):
     def post(self):
-        user_data = {
-            'first_name': request.json.get('first_name'),
-            'last_name': request.json.get('last_name'),
-            'email': request.json.get('email')
-        }
-        if (user_data.get('first_name')) and (user_data.get('last_name')) and (user_data.get('email')):
+        if (first_name := request.json.get('first_name')) and (last_name := request.json.get('last_name')) and (email := request.json.get('email')):
+            user_data = {
+                'first_name': first_name,
+                'last_name': last_name,
+                'email': email
+            }
             if (User.query.filter_by(email=user_data.get('email')).first()):
                 return {'error': 'Email already exists'}, 409 
             else:
