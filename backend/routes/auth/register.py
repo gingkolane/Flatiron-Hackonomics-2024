@@ -17,13 +17,13 @@ class Register(Resource):
             'last_name': request.json.get('last_name'),
             'email': request.json.get('email')
         }
-        if (user_data.get('first_name')) and (user_data.get('last_name')) and (user_data.get('email')) and (password := request.json.get('password')):
+        if (user_data.get('first_name')) and (user_data.get('last_name')) and (user_data.get('email')):
             if (User.query.filter_by(email=user_data.get('email')).first()):
                 return {'error': 'Email already exists'}, 409 
             else:
                 try:
                     new_user = User(first_name=user_data.get('first_name'), last_name=user_data.get('last_name'), email=user_data.get('email'))
-                    new_user.password_hash = password
+                    new_user.password_hash = request.json.get('password')
                     db.session.add(new_user)
                     db.session.commit()
                     
