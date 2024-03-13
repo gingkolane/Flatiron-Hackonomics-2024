@@ -29,7 +29,9 @@ class Register(Resource):
 
                     jwt = create_access_token(identity=new_user.id)
                     refresh_token = create_refresh_token(identity=new_user.id)
-                    
+                    response = make_response(new_user, 201)
+
+                    return response
                 except Exception as e:
                     db.session.rollback()
                     return {'error': 'Could not validate information'}, 400
