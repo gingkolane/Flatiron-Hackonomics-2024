@@ -15,5 +15,11 @@ class Register(Resource):
         if (email := request.json.get('email')) and (password := request.json.get('password')):
             if (User.query.filter_by(email=email).first()):
                 return {'error': 'Email already exists'}, 409 
+            else:
+                try:
+                    pass
+                except Exception as e:
+                    db.session.rollback()
+                    return {'error': 'Could not validate information'}, 400
         else:
             return {'error': 'The server was unable to retrieve your information'}, 400
