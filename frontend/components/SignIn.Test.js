@@ -1,6 +1,6 @@
 import React from "react";
 import { render, fireEvent, waitFor } from "@testing-library/react-native";
-import SignIn from "./SignIn"; // Adjust the import path as necessary
+import LoginPage from "./LoginPage";
 
 jest.mock("react-native/Libraries/Animated/NativeAnimatedHelper");
 
@@ -15,7 +15,7 @@ global.fetch = jest.fn(() =>
 
 test("login function gets called and navigates on successful login", async () => {
   const { getByPlaceholderText, getByText } = render(
-    <SignIn navigation={{ navigate: mockedNavigate }} />
+    <LoginPage navigation={{ navigate: mockedNavigate }} />
   );
 
   fireEvent.changeText(getByPlaceholderText("Email"), "test@example.com");

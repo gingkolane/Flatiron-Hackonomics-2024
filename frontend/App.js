@@ -16,14 +16,14 @@ import AccountPage from "./components/AccountPage";
 import { AuthProvider } from "./components/AuthContext";
 import LoginPage from "./components/LoginPage";
 import { SafeAreaView } from "react-native-safe-area-context";
+import Budget from "./components/Budget";
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-    // some test tailwind classes
     <PaperProvider>
-      <SafeAreaView className="flex h-screen justify-center bg-money-green ">
+      <SafeAreaView className="flex h-screen justify-center bg-money-green">
         <AuthProvider>
           <NavigationContainer>
             <View>
@@ -33,33 +33,136 @@ export default function App() {
               <Stack.Screen
                 name="Home"
                 component={HomeScreen}
-                options={{ title: "Welcome to Money Magnet" }}
+                options={{
+                  title: "Welcome to Money Magnet",
+                  headerStyle: {
+                    backgroundColor: "#009933",
+                  },
+                  headerTintColor: "#fff",
+                  headerTitleStyle: {
+                    fontWeight: "bold",
+                    fontSize: 22,
+                  },
+                  headerTitleAlign: "center",
+
+                  headerShadowVisible: true,
+                  headerElevation: 4,
+                }}
               />
 
               <Stack.Screen
                 name="SignIn"
                 component={LoginPage}
-                options={{ title: "Login" }}
+                options={{
+                  title: "",
+                  headerStyle: {
+                    backgroundColor: "#009933",
+                  },
+                  headerTintColor: "#fff",
+                  headerTitleStyle: {
+                    fontWeight: "bold",
+                    fontSize: 22,
+                  },
+                  headerTitleAlign: "center",
+
+                  headerShadowVisible: true,
+                  headerElevation: 4,
+                }}
               />
               <Stack.Screen
                 name="SignUp"
                 component={SignUp}
-                options={{ title: "Sign Up" }}
+                options={{
+                  title: "",
+                  headerStyle: {
+                    backgroundColor: "#009933",
+                  },
+                  headerTintColor: "#fff",
+                  headerTitleStyle: {
+                    fontWeight: "bold",
+                    fontSize: 22,
+                  },
+                  headerTitleAlign: "center",
+
+                  headerShadowVisible: true,
+                  headerElevation: 4,
+                }}
               />
               <Stack.Screen
                 name="TransactionPage"
                 component={TransactionPage}
-                options={{ title: "Transactions" }}
+                options={{
+                  title: "Transactions",
+                  headerStyle: {
+                    backgroundColor: "#009933",
+                  },
+                  headerTintColor: "#fff",
+                  headerTitleStyle: {
+                    fontWeight: "bold",
+                    fontSize: 22,
+                  },
+                  headerTitleAlign: "center",
+
+                  headerShadowVisible: true,
+                  headerElevation: 4,
+                }}
               />
               <Stack.Screen
                 name="Dashboard"
                 component={Dashboard}
-                options={{ title: "Dashboard" }}
+                options={{
+                  title: "Dashboard",
+                  headerStyle: {
+                    backgroundColor: "#009933",
+                  },
+                  headerTintColor: "#fff",
+                  headerTitleStyle: {
+                    fontWeight: "bold",
+                    fontSize: 22,
+                  },
+                  headerTitleAlign: "center",
+
+                  headerShadowVisible: true,
+                  headerElevation: 4,
+                }}
               />
               <Stack.Screen
                 name="Account"
                 component={AccountPage}
-                options={{ title: "Account" }}
+                options={{
+                  title: "Account",
+                  headerStyle: {
+                    backgroundColor: "#009933",
+                  },
+                  headerTintColor: "#fff",
+                  headerTitleStyle: {
+                    fontWeight: "bold",
+                    fontSize: 22,
+                  },
+                  headerTitleAlign: "center",
+
+                  headerShadowVisible: true,
+                  headerElevation: 4,
+                }}
+              />
+              <Stack.Screen
+                name="Budget"
+                component={Budget}
+                options={{
+                  title: "Budget",
+                  headerStyle: {
+                    backgroundColor: "#009933",
+                  },
+                  headerTintColor: "#fff",
+                  headerTitleStyle: {
+                    fontWeight: "bold",
+                    fontSize: 22,
+                  },
+                  headerTitleAlign: "center",
+
+                  headerShadowVisible: true,
+                  headerElevation: 4,
+                }}
               />
             </Stack.Navigator>
 

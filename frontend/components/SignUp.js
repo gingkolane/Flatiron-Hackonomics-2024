@@ -5,7 +5,6 @@ import { TextInput, Button, Text, Chip } from "react-native-paper";
 import { View, Alert, SafeAreaView, StyleSheet } from "react-native";
 import { useAuth } from "./AuthContext";
 import * as Yup from "yup";
-import { Link } from "@react-navigation/native";
 
 const SignUp = ({ navigation }) => {
   const { signup } = useAuth();
@@ -29,22 +28,8 @@ const SignUp = ({ navigation }) => {
       .required("Required"),
   });
 
-  const handleSignUp = () => {
-    const values = { email, password, firstName, lastName };
-    signup(values).then((success) => {
-      if (success) {
-        console.log("Sign up successful");
-      } else {
-        console.log("Sign up failed");
-      }
-    });
-  };
-
   return (
-    <SafeAreaView
-      className="flex-1 justify-center items-center px-4 bg-white"
-      style={styles.container}
-    >
+    <SafeAreaView className="flex-1 justify-center items-center px-4 bg-mint-green">
       <Text variant="displayMedium" style={styles.title}>
         Sign Up
       </Text>
@@ -71,8 +56,7 @@ const SignUp = ({ navigation }) => {
         }) => (
           <>
             <TextInput
-              className="border border-gray-300  p-2 w-full mb-4"
-              style={styles.input}
+              className="w-3/4 mb-5 bg-magnetic-grey"
               onChangeText={handleChange("firstName")}
               onBlur={handleBlur("firstName")}
               value={values.firstName}
@@ -80,11 +64,12 @@ const SignUp = ({ navigation }) => {
             />
 
             {touched.firstName && errors.firstName && (
-              <Chip style={styles.error}>{errors.firstName}</Chip>
+              <Chip style={styles.error} className="mb-4 bg-magnetic-grey">
+                {errors.firstName}
+              </Chip>
             )}
             <TextInput
-              className="border border-gray-300  p-2 w-full mb-4"
-              style={styles.input}
+              className="w-3/4 mb-5 bg-magnetic-grey"
               onChangeText={handleChange("lastName")}
               onBlur={handleBlur("lastName")}
               value={values.lastName}
@@ -92,11 +77,12 @@ const SignUp = ({ navigation }) => {
             />
 
             {touched.lastName && errors.lastName && (
-              <Chip style={styles.error}>{errors.lastName}</Chip>
+              <Chip style={styles.error} className="mb-4 bg-magnetic-grey">
+                {errors.lastName}
+              </Chip>
             )}
             <TextInput
-              className="border border-gray-300  p-2 w-full mb-4"
-              style={styles.input}
+              className="w-3/4 mb-5 bg-magnetic-grey"
               onChangeText={handleChange("email")}
               onBlur={handleBlur("email")}
               value={values.email}
@@ -104,11 +90,12 @@ const SignUp = ({ navigation }) => {
             />
 
             {touched.email && errors.email && (
-              <Chip style={styles.error}>{errors.email}</Chip>
+              <Chip style={styles.error} className="mb-4 bg-magnetic-grey">
+                {errors.email}
+              </Chip>
             )}
             <TextInput
-              className="border border-gray-300  p-2 w-full mb-4"
-              style={styles.input}
+              className="w-3/4 mb-5 bg-magnetic-grey"
               onChangeText={handleChange("password")}
               onBlur={handleBlur("password")}
               value={values.password}
@@ -116,7 +103,9 @@ const SignUp = ({ navigation }) => {
             />
 
             {touched.password && errors.password && (
-              <Chip style={styles.error}>{errors.password}</Chip>
+              <Chip style={styles.error} className="mb-4 bg-magnetic-grey">
+                {errors.password}
+              </Chip>
             )}
 
             <Button mode="contained" onPress={handleSubmit}>
@@ -150,7 +139,7 @@ const styles = StyleSheet.create({
     width: "80%",
     height: 40,
     margin: 12,
-    borderWidth: 1,
+    borderWidth: 0,
     padding: 10,
   },
   error: {
