@@ -6,7 +6,11 @@ import HomeScreen from "./components/HomeScreen";
 import "./app.css";
 import SignIn from "./components/SignIn";
 import SignUp from "./components/SignUp";
+
 import Dashboard from "./components/Dashboard";
+
+import TransactionPage from "./components/TransactionPage";
+import AccountPage from "./components/AccountPage";
 
 const Stack = createNativeStackNavigator();
 
@@ -32,9 +36,19 @@ export default function App() {
             options={{ title: "Sign Up" }}
           />
           <Stack.Screen
+            name="TransactionPage"
+            component={TransactionPage}
+            options={{ title: "Transactions" }}
+          />
+          <Stack.Screen
             name="Dashboard"
             component={Dashboard}
             options={{ title: "Dashboard" }}
+          />
+          <Stack.Screen
+            name="Account"
+            component={AccountPage}
+            options={{ title: "Account" }}
           />
         </Stack.Navigator>
 

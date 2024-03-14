@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import { Formik } from "formik";
+import * as Yup from "yup";
+
 import {
   View,
   TextInput,
@@ -15,6 +18,21 @@ const SignUp = ({ navigation }) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [user, setUser] = useState("");
+
+  const SignupSchema = Yup.object().shape({
+    firstName: Yup.string()
+      .min(2, "Too Short!")
+      .max(50, "Too Long!")
+      .required("Required"),
+    lastName: Yup.string()
+      .min(2, "Too Short!")
+      .max(50, "Too Long!")
+      .required("Required"),
+    email: Yup.string().email("Invalid email").required("Required"),
+    password: Yup.string()
+      .min(8, "Password is too short - should be 8 chars minimum.")
+      .required("Required"),
+  });
 
   const signup = (values) => {
     return fetch("/api/signup", {
@@ -66,37 +84,82 @@ const SignUp = ({ navigation }) => {
       <Text className="text-xl font-bold mb-4" style={styles.title}>
         Sign Up
       </Text>
-      <TextInput
-        className="border border-gray-300  p-2 w-full mb-4"
-        style={styles.input}
-        onChangeText={setFirstName}
-        value={firstName}
-        placeholder="First Name"
-      />
-      <TextInput
-        className="border border-gray-300 p-2 w-full mb-4"
-        style={styles.input}
-        onChangeText={setLastName}
-        value={lastName}
-        placeholder="Last Name"
-      />
-      <TextInput
-        className="border border-gray-300 p-2 w-full mb-4"
-        style={styles.input}
-        onChangeText={setEmail}
-        value={email}
-        placeholder="Email"
-        keyboardType="email-address"
-      />
-      <TextInput
-        className="border border-gray-300 p-2 w-full mb-6"
-        style={styles.input}
-        onChangeText={setPassword}
-        value={password}
-        placeholder="Password"
-        secureTextEntry
-      />
-      <Button title="Sign Up" onPress={handleSignUp} />
+      <Formik
+        initialValues={{ firstName: "", lastName: "", email: "", password: "" }}
+        validationSchema={SignupSchema}
+        onSubmit={(values) => {
+          signup(values).then((success) => {
+            if (success) {
+              console.log("Sign up successful");
+              // Optionally navigate to another screen or show a success message
+            } else {
+              console.log("Sign up failed");
+            }
+          });
+        }}
+      >
+        {({
+          handleChange,
+          handleBlur,
+          handleSubmit,
+          values,
+          errors,
+          touched,
+        }) => (
+          <>
+            <TextInput
+              className="border border-gray-300  p-2 w-full mb-4"
+              style={styles.input}
+              onChangeText={handleChange("firstName")}
+              onBlur={handleBlur("firstName")}
+              value={values.firstName}
+              placeholder="First Name"
+            />
+            {/* Add error handling */}
+            {touched.firstName && errors.firstName && (
+              <Text>{errors.firstName}</Text>
+            )}
+            <TextInput
+              className="border border-gray-300  p-2 w-full mb-4"
+              style={styles.input}
+              onChangeText={handleChange("lastName")}
+              onBlur={handleBlur("lastName")}
+              value={values.lastName}
+              placeholder="Last Name"
+            />
+            {/* Add error handling */}
+            {touched.lastName && errors.lastName && (
+              <Text>{errors.lastName}</Text>
+            )}
+            <TextInput
+              className="border border-gray-300  p-2 w-full mb-4"
+              style={styles.input}
+              onChangeText={handleChange("email")}
+              onBlur={handleBlur("email")}
+              value={values.email}
+              placeholder="Email"
+            />
+            {/* Add error handling */}
+            {touched.email && errors.email && <Text>{errors.email}</Text>}
+            <TextInput
+              className="border border-gray-300  p-2 w-full mb-4"
+              style={styles.input}
+              onChangeText={handleChange("password")}
+              onBlur={handleBlur("password")}
+              value={values.password}
+              placeholder="password"
+            />
+            {/* Add error handling */}
+            {touched.password && errors.password && (
+              <Text>{errors.password}</Text>
+            )}
+
+            {/* Repeat for lastName, email, and password */}
+
+            <Button title="Sign Up" onPress={handleSubmit} />
+          </>
+        )}
+      </Formik>
     </SafeAreaView>
   );
 };
