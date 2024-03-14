@@ -1,61 +1,32 @@
-import {
-  StyleSheet,
-  View,
-  TextInput,
-  Button,
-  Text,
-  Alert,
-  Image,
-} from "react-native";
-import React, { useState } from "react";
-import { Formik } from "formik";
+import { StyleSheet, View, Alert, Image } from "react-native";
+
+import { TextInput, Button, Text, Snackbar, Chip } from "react-native-paper";
 import * as Yup from "yup";
 
-const SignIn = ({ navigation, route }) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+import React, { useState } from "react";
+import { Formik } from "formik";
+import { useAuth } from "./AuthContext";
+
+const LoginPage = ({ navigation, route }) => {
+  const { login } = useAuth();
 
   const LoginSchema = Yup.object().shape({
     email: Yup.string().email("Invalid email").required("Required"),
     password: Yup.string().min(2, "Too Short!").required("Required"),
   });
 
-  const login = async () => {
-    try {
-      const response = await fetch("/api/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: email,
-          password: password,
-        }),
-      });
-      if (!response.ok) {
-        throw new Error("Login failed");
-      }
-      const data = await response.json();
+  const [visible, setVisible] = useState(false);
 
-      Alert.alert("Login Success", "You're logged in!");
+  const onToggleSnackBar = () => setVisible(!visible);
 
-      navigation.navigate("Dashboard");
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  const handleLogin = () => {
-    Alert.alert("Login Attempt", `Email: ${email}, Password: ${password}`);
-  };
-
+  const onDismissSnackBar = () => setVisible(false);
   return (
     <View style={styles.container}>
       <Formik
         initialValues={{ email: "", password: "" }}
         validationSchema={LoginSchema}
         onSubmit={(values, { setSubmitting }) => {
-          login(values.email, values.password);
-          setSubmitting(false);
+          login(values, navigation).finally(() => setSubmitting(false));
         }}
       >
         {({
@@ -68,7 +39,9 @@ const SignIn = ({ navigation, route }) => {
         }) => (
           <>
             <Image />
-            <Text style={styles.title}>Login</Text>
+            <Text variant="displayMedium" style={styles.title}>
+              Login
+            </Text>
             <TextInput
               style={styles.input}
               onChangeText={handleChange("email")}
@@ -78,7 +51,7 @@ const SignIn = ({ navigation, route }) => {
               keyboardType="email-address"
             />
             {touched.email && errors.email && (
-              <Text style={styles.error}>{errors.email}</Text>
+              <Chip style={styles.error}>{errors.email}</Chip>
             )}
             <TextInput
               style={styles.input}
@@ -89,9 +62,23 @@ const SignIn = ({ navigation, route }) => {
               secureTextEntry
             />
             {touched.password && errors.password && (
-              <Text style={styles.error}>{errors.password}</Text>
+              <Chip style={styles.error}>{errors.password}</Chip>
             )}
-            <Button title="Login" onPress={handleSubmit} />
+            <Button mode="contained" title="Login" onPress={handleSubmit}>
+              Login
+            </Button>
+            <Snackbar
+              visible={visible}
+              onDismiss={onDismissSnackBar}
+              action={{
+                label: "Undo",
+                onPress: () => {
+                  // Do something
+                },
+              }}
+            >
+              Hey there! I'm a Snackbar.
+            </Snackbar>
           </>
         )}
       </Formik>
@@ -99,7 +86,7 @@ const SignIn = ({ navigation, route }) => {
   );
 };
 
-export default SignIn;
+export default LoginPage;
 
 const styles = StyleSheet.create({
   container: {
@@ -108,7 +95,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   title: {
-    fontSize: 24,
     marginBottom: 20,
   },
   input: {
@@ -117,5 +103,8 @@ const styles = StyleSheet.create({
     margin: 12,
     borderWidth: 1,
     padding: 10,
+  },
+  error: {
+    color: "red",
   },
 });

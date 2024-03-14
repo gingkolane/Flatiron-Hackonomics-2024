@@ -1,23 +1,18 @@
 import React, { useState } from "react";
 import { Formik } from "formik";
-import * as Yup from "yup";
+import { TextInput, Button, Text, Chip } from "react-native-paper";
 
-import {
-  View,
-  TextInput,
-  Button,
-  Alert,
-  Text,
-  SafeAreaView,
-  StyleSheet,
-} from "react-native";
+import { View, Alert, SafeAreaView, StyleSheet } from "react-native";
+import { useAuth } from "./AuthContext";
+import * as Yup from "yup";
+import { Link } from "@react-navigation/native";
 
 const SignUp = ({ navigation }) => {
+  const { signup } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [user, setUser] = useState("");
 
   const SignupSchema = Yup.object().shape({
     firstName: Yup.string()
@@ -34,42 +29,11 @@ const SignUp = ({ navigation }) => {
       .required("Required"),
   });
 
-  const signup = (values) => {
-    return fetch("/api/signup", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(values),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        if (!data) {
-          throw new Error("No data returned from signup");
-        }
-        setUser(data);
-        console.log(user);
-        navigation.navigate("Dashboard");
-
-        return true;
-      })
-      .catch((error) => {
-        Alert.alert("Error", "Sign up failed. Please try again.");
-        return false;
-      });
-  };
-
   const handleSignUp = () => {
     const values = { email, password, firstName, lastName };
     signup(values).then((success) => {
       if (success) {
         console.log("Sign up successful");
-        // Optionally navigate to another screen or show a success message
       } else {
         console.log("Sign up failed");
       }
@@ -81,7 +45,7 @@ const SignUp = ({ navigation }) => {
       className="flex-1 justify-center items-center px-4 bg-white"
       style={styles.container}
     >
-      <Text className="text-xl font-bold mb-4" style={styles.title}>
+      <Text variant="displayMedium" style={styles.title}>
         Sign Up
       </Text>
       <Formik
@@ -91,7 +55,6 @@ const SignUp = ({ navigation }) => {
           signup(values).then((success) => {
             if (success) {
               console.log("Sign up successful");
-              // Optionally navigate to another screen or show a success message
             } else {
               console.log("Sign up failed");
             }
@@ -115,9 +78,9 @@ const SignUp = ({ navigation }) => {
               value={values.firstName}
               placeholder="First Name"
             />
-            {/* Add error handling */}
+
             {touched.firstName && errors.firstName && (
-              <Text>{errors.firstName}</Text>
+              <Chip style={styles.error}>{errors.firstName}</Chip>
             )}
             <TextInput
               className="border border-gray-300  p-2 w-full mb-4"
@@ -127,9 +90,9 @@ const SignUp = ({ navigation }) => {
               value={values.lastName}
               placeholder="Last Name"
             />
-            {/* Add error handling */}
+
             {touched.lastName && errors.lastName && (
-              <Text>{errors.lastName}</Text>
+              <Chip style={styles.error}>{errors.lastName}</Chip>
             )}
             <TextInput
               className="border border-gray-300  p-2 w-full mb-4"
@@ -139,8 +102,10 @@ const SignUp = ({ navigation }) => {
               value={values.email}
               placeholder="Email"
             />
-            {/* Add error handling */}
-            {touched.email && errors.email && <Text>{errors.email}</Text>}
+
+            {touched.email && errors.email && (
+              <Chip style={styles.error}>{errors.email}</Chip>
+            )}
             <TextInput
               className="border border-gray-300  p-2 w-full mb-4"
               style={styles.input}
@@ -149,17 +114,24 @@ const SignUp = ({ navigation }) => {
               value={values.password}
               placeholder="password"
             />
-            {/* Add error handling */}
+
             {touched.password && errors.password && (
-              <Text>{errors.password}</Text>
+              <Chip style={styles.error}>{errors.password}</Chip>
             )}
 
-            {/* Repeat for lastName, email, and password */}
-
-            <Button title="Sign Up" onPress={handleSubmit} />
+            <Button mode="contained" onPress={handleSubmit}>
+              Sign up
+            </Button>
           </>
         )}
       </Formik>
+      <Text>Already a member? </Text>
+      <Button
+        title="Sign In"
+        onPress={() => navigation.navigate("SignIn", { name: "Sign In" })}
+      >
+        Sign in
+      </Button>
     </SafeAreaView>
   );
 };
@@ -172,7 +144,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   title: {
-    fontSize: 24,
     marginBottom: 20,
   },
   input: {
@@ -181,5 +152,8 @@ const styles = StyleSheet.create({
     margin: 12,
     borderWidth: 1,
     padding: 10,
+  },
+  error: {
+    color: "red",
   },
 });

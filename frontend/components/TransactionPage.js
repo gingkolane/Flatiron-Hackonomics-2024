@@ -1,6 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { View, FlatList, ActivityIndicator, StyleSheet, Text } from 'react-native';
-import { Card, Paragraph } from 'react-native-paper';
+import React, { useState, useEffect } from "react";
+import {
+  View,
+  FlatList,
+  ActivityIndicator,
+  StyleSheet,
+  Text,
+} from "react-native";
+import { Card, Paragraph } from "react-native-paper";
 
 const TransactionPage = () => {
   const [transactions, setTransactions] = useState([]);
@@ -8,9 +14,9 @@ const TransactionPage = () => {
 
   // Mock data that mimics the structure you expect from your backend
   const mockTransactions = [
-    { id: 1, date: '2024-03-14', amount: '50.00', category: 'Groceries' },
-    { id: 2, date: '2024-03-15', amount: '150.00', category: 'Utilities' },
-    { id: 3, date: '2024-03-16', amount: '20.00', category: 'Entertainment' },
+    { id: 1, date: "2024-03-14", amount: "50.00", category: "Groceries" },
+    { id: 2, date: "2024-03-15", amount: "150.00", category: "Utilities" },
+    { id: 3, date: "2024-03-16", amount: "20.00", category: "Entertainment" },
   ];
 
   useEffect(() => {
