@@ -13,3 +13,9 @@ from models.users import User
 #! Authentication
 from routes.auth.login import Login
 from routes.auth.register import Register
+
+
+# Resources
+#! Authentication
+api.add_resource(Login, '/login')
+api.add_resource(Register, '/register')
