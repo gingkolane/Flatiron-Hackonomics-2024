@@ -6,11 +6,11 @@ import { Card, Divider, Avatar } from "react-native-paper"; // Assuming you're u
 const AccountPage = ({ navigation }) => {
   return (
     <>
-      <View style={styles.container}>
+      <View style={styles.container} className="bg-mint-green">
         <Card style={styles.card}>
           <Card.Title title="Profile" subtitle="Your personal information" />
           <Card.Content>
-            <View style={styles.profileSection}>
+            <View style={styles.avatarimg} className="">
               <Avatar.Image
                 size={64}
                 source={{ uri: "https://i.imgur.com/UjHoQLk.png" }}
@@ -58,5 +58,10 @@ const styles = StyleSheet.create({
   card: {
     margin: 8,
     elevation: 2,
+  },
+  avatarimg: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

@@ -21,7 +21,8 @@ const LoginPage = ({ navigation, route }) => {
 
   const onDismissSnackBar = () => setVisible(false);
   return (
-    <View style={styles.container}>
+    <View style={styles.container} className="bg-mint-green">
+      <Image source={{ uri: "https://i.imgur.com/UjHoQLkh.png" }} />
       <Formik
         initialValues={{ email: "", password: "" }}
         validationSchema={LoginSchema}
@@ -43,7 +44,8 @@ const LoginPage = ({ navigation, route }) => {
               Login
             </Text>
             <TextInput
-              style={styles.input}
+              className="w-3/4 mb-5 bg-magnetic-grey"
+              // style={styles.input}
               onChangeText={handleChange("email")}
               onBlur={handleBlur("email")}
               value={values.email}
@@ -51,10 +53,13 @@ const LoginPage = ({ navigation, route }) => {
               keyboardType="email-address"
             />
             {touched.email && errors.email && (
-              <Chip style={styles.error}>{errors.email}</Chip>
+              <Chip style={styles.error} className="mb-4 bg-magnetic-grey">
+                {errors.email}
+              </Chip>
             )}
             <TextInput
-              style={styles.input}
+              className="w-3/4 mb-5 bg-magnetic-grey"
+              // style={styles.input}
               onChangeText={handleChange("password")}
               onBlur={handleBlur("password")}
               value={values.password}
@@ -62,9 +67,16 @@ const LoginPage = ({ navigation, route }) => {
               secureTextEntry
             />
             {touched.password && errors.password && (
-              <Chip style={styles.error}>{errors.password}</Chip>
+              <Chip style={styles.error} className="mb-4 bg-magnetic-grey">
+                {errors.password}
+              </Chip>
             )}
-            <Button mode="contained" title="Login" onPress={handleSubmit}>
+            <Button
+              className="bg-magnetic-plum"
+              mode="contained"
+              title="Login"
+              onPress={handleSubmit}
+            >
               Login
             </Button>
             <Snackbar
