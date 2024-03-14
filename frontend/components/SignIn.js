@@ -1,4 +1,12 @@
-import { StyleSheet, View, TextInput, Button, Text, Alert } from "react-native";
+import {
+  StyleSheet,
+  View,
+  TextInput,
+  Button,
+  Text,
+  Alert,
+  Image,
+} from "react-native";
 import React, { useState } from "react";
 
 const SignIn = ({ navigation, route }) => {
@@ -37,6 +45,7 @@ const SignIn = ({ navigation, route }) => {
 
   return (
     <View style={styles.container}>
+      <Image src="frontend/assets/image.png" />
       <Text style={styles.title}>Login</Text>
       <TextInput
         style={styles.input}

@@ -35,6 +35,7 @@ const SignUp = ({ navigation }) => {
           throw new Error("No data returned from signup");
         }
         setUser(data);
+        console.log(user);
         navigation.navigate("Dashboard");
 
         return true;
@@ -66,7 +67,7 @@ const SignUp = ({ navigation }) => {
         Sign Up
       </Text>
       <TextInput
-        className="border border-gray-300 p-2 w-full mb-4"
+        className="border border-gray-300  p-2 w-full mb-4"
         style={styles.input}
         onChangeText={setFirstName}
         value={firstName}

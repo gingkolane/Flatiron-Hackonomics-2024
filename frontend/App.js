@@ -6,6 +6,7 @@ import HomeScreen from "./components/HomeScreen";
 import "./app.css";
 import SignIn from "./components/SignIn";
 import SignUp from "./components/SignUp";
+import Dashboard from "./components/Dashboard";
 
 const Stack = createNativeStackNavigator();
 
@@ -29,6 +30,11 @@ export default function App() {
             name="SignUp"
             component={SignUp}
             options={{ title: "Sign Up" }}
+          />
+          <Stack.Screen
+            name="Dashboard"
+            component={Dashboard}
+            options={{ title: "Dashboard" }}
           />
         </Stack.Navigator>
 
