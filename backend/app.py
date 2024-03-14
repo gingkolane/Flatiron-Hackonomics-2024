@@ -29,3 +29,10 @@ api.add_resource(Register, '/register')
 def user_lookup_callback(_jwt_header, jwt_data):
     identity = jwt_data['sub']
     return db.session.get(User, identity)
+
+@app.route('/')
+def index():
+    return '<h1>Project Server</h1>'
+
+if __name__ == '__main__':
+    app.run(port=5555, debug=True)
