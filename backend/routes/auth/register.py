@@ -28,6 +28,7 @@ class Register(Resource):
                     new_user = User(first_name=user_data.get('first_name'), last_name=user_data.get('last_name'), email=user_data.get('email'))
                     # Hash password
                     new_user.password_hash = request.json.get('password')
+                    import ipdb; ipdb.set_trace()
                     # Add user to db session
                     db.session.add(new_user)
                     db.session.commit()
@@ -35,7 +36,7 @@ class Register(Resource):
                     jwt = create_access_token(identity=new_user.id)
                     refresh_token = create_refresh_token(identity=new_user.id)
                     # Prepackage response
-                    response = make_response(new_user, 201)
+                    response = make_response(new_user.to_dict(rules=('-password',)), 201)
                     # Set access and refresh cookies on the response - will be sent with every request until unset
                     set_access_cookies(response, jwt)
                     set_refresh_cookies(response, refresh_token)
