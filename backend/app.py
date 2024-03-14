@@ -12,12 +12,14 @@ from models.users import User
 # Route imports
 #! Authentication
 from routes.auth.login import Login
+from routes.auth.logout import Logout
 from routes.auth.register import Register
 
 
 # Resources
 #! Authentication
 api.add_resource(Login, '/login')
+api.add_resource(Logout, '/logout')
 api.add_resource(Register, '/register')
 
 
