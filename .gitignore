@@ -8,3 +8,8 @@
 # local env files
 .env
 .env*.local
+
+# database
+backend/instance
+
+backend/migrations
