@@ -4,4 +4,7 @@ from models.users import User
 class CurrentUser(Resource):
     @jwt_required()
     def get(self):
-        pass
+        try:
+            pass
+        except Exception as e:
+            return {'error': str(e)}
