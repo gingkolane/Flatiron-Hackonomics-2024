@@ -11,14 +11,14 @@ const SignUp = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const [last_name, setlast_name] = useState("");
 
   const SignupSchema = Yup.object().shape({
-    firstName: Yup.string()
+    first_name: Yup.string()
       .min(2, "Too Short!")
       .max(50, "Too Long!")
       .required("Required"),
-    lastName: Yup.string()
+    last_name: Yup.string()
       .min(2, "Too Short!")
       .max(50, "Too Long!")
       .required("Required"),
@@ -34,7 +34,12 @@ const SignUp = ({ navigation }) => {
         Sign Up
       </Text>
       <Formik
-        initialValues={{ firstName: "", lastName: "", email: "", password: "" }}
+        initialValues={{
+          first_name: "",
+          last_name: "",
+          email: "",
+          password: "",
+        }}
         validationSchema={SignupSchema}
         onSubmit={(values) => {
           signup(values).then((success) => {
@@ -57,28 +62,28 @@ const SignUp = ({ navigation }) => {
           <>
             <TextInput
               className="w-3/4 mb-5 bg-magnetic-grey"
-              onChangeText={handleChange("firstName")}
-              onBlur={handleBlur("firstName")}
-              value={values.firstName}
+              onChangeText={handleChange("first_name")}
+              onBlur={handleBlur("first_name")}
+              value={values.first_name}
               placeholder="First Name"
             />
 
-            {touched.firstName && errors.firstName && (
+            {touched.first_name && errors.first_name && (
               <Chip style={styles.error} className="mb-4 bg-magnetic-grey">
-                {errors.firstName}
+                {errors.first_name}
               </Chip>
             )}
             <TextInput
               className="w-3/4 mb-5 bg-magnetic-grey"
-              onChangeText={handleChange("lastName")}
-              onBlur={handleBlur("lastName")}
-              value={values.lastName}
+              onChangeText={handleChange("last_name")}
+              onBlur={handleBlur("last_name")}
+              value={values.last_name}
               placeholder="Last Name"
             />
 
-            {touched.lastName && errors.lastName && (
+            {touched.last_name && errors.last_name && (
               <Chip style={styles.error} className="mb-4 bg-magnetic-grey">
-                {errors.lastName}
+                {errors.last_name}
               </Chip>
             )}
             <TextInput
@@ -108,7 +113,11 @@ const SignUp = ({ navigation }) => {
               </Chip>
             )}
 
-            <Button mode="contained" onPress={handleSubmit}>
+            <Button
+              mode="contained"
+              onPress={handleSubmit}
+              className="bg-magnetic-plum"
+            >
               Sign up
             </Button>
           </>

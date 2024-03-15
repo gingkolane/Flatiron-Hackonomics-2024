@@ -8,13 +8,77 @@ export const useAuth = () => useContext(AuthContext);
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
+  const getCookie = (name) => {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+
+    if (parts.length === 2) {
+      return parts.pop()?.split(";").shift() || "";
+    }
+
+    return "";
+  };
+
+  const refreshUser = () => {
+    return fetch("/user", {
+      credentials: "include",
+    })
+      .then((res) => {
+        if (res.ok) {
+          return res.json().then((data) => {
+            if (!loadingLogout) {
+              setUser(data);
+              return true;
+            }
+          });
+        } else {
+          if (res.status === 401) {
+            fetch("/refresh", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${refreshToken}`,
+                "X-CSRF-TOKEN": getCookie("csrf_refresh_token"),
+              },
+              credentials: "include",
+            })
+              .then((res) => {
+                if (res.ok) {
+                  return res.json().then((data) => {
+                    if (!loadingLogout) {
+                      setUser(data);
+                      return true;
+                    }
+                  });
+                } else {
+                  setUser(null);
+                  return false;
+                }
+              })
+              .catch((e) => {
+                console.error(e);
+                return false;
+              });
+          } else {
+            return false;
+          }
+        }
+      })
+      .catch((e) => {
+        console.error(e);
+        return false;
+      });
+  };
+
   const login = async (userInfo, navigation) => {
     try {
       const { email, password } = userInfo;
-      const response = await fetch("http://127.0.0.1:5000/login", {
+      const response = await fetch("http://127.0.0.1:5555/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+          "X-CSRF-TOKEN": getCookie("csrf_refresh_token"),
         },
         body: JSON.stringify({
           email,
@@ -45,6 +109,7 @@ export const AuthProvider = ({ children }) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
+        console.log(response);
         return response.json();
       })
       .then((data) => {
@@ -106,6 +171,7 @@ export const AuthProvider = ({ children }) => {
         login,
         signup,
         logout,
+        getCookie,
       }}
     >
       {children}

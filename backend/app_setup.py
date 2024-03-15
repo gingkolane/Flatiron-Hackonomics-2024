@@ -49,5 +49,13 @@ api = Api(app)
 
 # Instantiate CORS
 CORS(app)
+
+cors = CORS(
+    app,
+    supports_credentials=True,
+    resources={
+        r"/register": {"origins": "exp://10.0.0.31:8081"},
+    },
+)
 bcrypt = Bcrypt(app)
  
