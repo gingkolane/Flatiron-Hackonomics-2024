@@ -4,4 +4,9 @@ from models.users import User
 class Refresh(Resource):
     @jwt_required(refresh=True)
     def post(self):
-        pass
+        current_id = get_jwt_identity()
+        response = make_response(db.session.get(User, current_id).to_dict(), 200)
+        access_token = create_access_token(identity=current_id)
+        set_access_cookies(response, access_token)
+
+        return response
