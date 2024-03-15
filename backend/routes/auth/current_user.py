@@ -5,6 +5,7 @@ class CurrentUser(Resource):
     @jwt_required()
     def get(self):
         try:
-            pass
+            if (current_user := db.session.get(User, get_jwt_identity())):
+                return current_user.to_dict(), 200
         except Exception as e:
             return {'error': str(e)}
