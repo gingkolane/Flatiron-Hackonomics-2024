@@ -1,9 +1,9 @@
+import re
+from app_setup import bcrypt, db
 from sqlalchemy.orm import validates
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy_serializer import SerializerMixin
-import re
 
-from app_setup import bcrypt, db
 
 
 class User(db.Model, SerializerMixin):
@@ -18,8 +18,7 @@ class User(db.Model, SerializerMixin):
     updated_at = db.Column(db.DateTime, server_default=db.func.now(), server_onupdate=db.func.now())
 
     accounts = db.relationship('Account', back_populates='user', cascade='all, delete-orphan')
-    achievements = db.relationship('Achievement', back_populates='user', cascade='all, delete-orphan')
-    expenses = db.relationship('Expense', back_populates='user', cascade='all, delete-orphan')
+    # achievements = db.relationship('Achievement', back_populates='user', cascade='all, delete-orphan')
 
     @hybrid_property
     def password_hash(self):
