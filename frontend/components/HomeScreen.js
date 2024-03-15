@@ -21,13 +21,13 @@ const HomeScreen = ({ navigation }) => {
       >
         Sign Up
       </Button>
-      {/* <Button
+      <Button
         mode="elevated"
         title="Go to Transactions"
         onPress={() => navigation.navigate("TransactionPage")}
       >
         Transactions
-      </Button> */}
+      </Button>
       <Button
         mode="elevated"
         title="Dashboard"
