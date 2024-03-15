@@ -9,7 +9,6 @@ const HomeScreen = ({ navigation }) => {
         <Image
           className=" w-44 h-44 "
           source={{ uri: "https://i.imgur.com/UjHoQLk.png" }}
-          style={{ borderRadius: "8px", padding: "30px" }}
           onError={(e) => console.log(e.nativeEvent.error)} // Log image loading errors
         />
       </View>

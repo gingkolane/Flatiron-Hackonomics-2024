@@ -61,7 +61,7 @@ const SignUp = ({ navigation }) => {
         }) => (
           <>
             <TextInput
-              className="w-3/4 mb-5 bg-magnetic-grey"
+              className="w-3/4 mb-5 bg-magnetic-grey rounded-lg shadow-sm"
               onChangeText={handleChange("first_name")}
               onBlur={handleBlur("first_name")}
               value={values.first_name}
@@ -69,12 +69,15 @@ const SignUp = ({ navigation }) => {
             />
 
             {touched.first_name && errors.first_name && (
-              <Chip style={styles.error} className="mb-4 bg-magnetic-grey">
+              <Chip
+                style={styles.error}
+                className="mb-4 bg-magnetic-grey rounded-lg shadow-sm"
+              >
                 {errors.first_name}
               </Chip>
             )}
             <TextInput
-              className="w-3/4 mb-5 bg-magnetic-grey"
+              className="w-3/4 mb-5 bg-magnetic-grey rounded-lg shadow-sm"
               onChangeText={handleChange("last_name")}
               onBlur={handleBlur("last_name")}
               value={values.last_name}
@@ -82,7 +85,10 @@ const SignUp = ({ navigation }) => {
             />
 
             {touched.last_name && errors.last_name && (
-              <Chip style={styles.error} className="mb-4 bg-magnetic-grey">
+              <Chip
+                style={styles.error}
+                className="mb-4 bg-magnetic-grey rounded-lg shadow-sm"
+              >
                 {errors.last_name}
               </Chip>
             )}

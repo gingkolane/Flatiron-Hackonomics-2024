@@ -44,7 +44,7 @@ const LoginPage = ({ navigation, route }) => {
               Login
             </Text>
             <TextInput
-              className="w-3/4 mb-5 bg-magnetic-grey"
+              className="w-3/4 mb-5 bg-magnetic-grey rounded-lg shadow-sm"
               // style={styles.input}
               onChangeText={handleChange("email")}
               onBlur={handleBlur("email")}
@@ -53,12 +53,15 @@ const LoginPage = ({ navigation, route }) => {
               keyboardType="email-address"
             />
             {touched.email && errors.email && (
-              <Chip style={styles.error} className="mb-4 bg-magnetic-grey">
+              <Chip
+                style={styles.error}
+                className="mb-4 bg-magnetic-grey rounded-lg shadow-sm"
+              >
                 {errors.email}
               </Chip>
             )}
             <TextInput
-              className="w-3/4 mb-5 bg-magnetic-grey"
+              className="w-3/4 mb-5 bg-magnetic-grey rounded-lg"
               // style={styles.input}
               onChangeText={handleChange("password")}
               onBlur={handleBlur("password")}

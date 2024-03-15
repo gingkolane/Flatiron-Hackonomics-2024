@@ -4,7 +4,20 @@ import React from "react";
 const Dashboard = () => {
   return (
     <View>
-      <Text className="bg-magnetic-plum p-5">Dashboard</Text>
+      <Button
+        mode="elevated"
+        title="Account"
+        onPress={() => navigation.navigate("Account")}
+      >
+        Account
+      </Button>
+      <Button
+        mode="elevated"
+        title="Budget"
+        onPress={() => navigation.navigate("Budget")}
+      >
+        Budget
+      </Button>
     </View>
   );
 };

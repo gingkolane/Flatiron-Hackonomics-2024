@@ -1,6 +1,8 @@
 import React, { createContext, useContext, useState } from "react";
 import { Alert } from "react-native";
 
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 const AuthContext = createContext();
 
 export const useAuth = () => useContext(AuthContext);
@@ -17,6 +19,74 @@ export const AuthProvider = ({ children }) => {
     }
 
     return "";
+  };
+
+  const login = async (userInfo, navigation) => {
+    try {
+      const csrfToken = await AsyncStorage.getItem("csrfToken"); // Assuming you store CSRF token on login
+      const { email, password } = userInfo;
+      const response = await fetch("http://127.0.0.1:5555/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRF-TOKEN": csrfToken, // Adjust as per your CSRF token handling
+        },
+        body: JSON.stringify({ email, password }),
+      });
+      if (!response.ok) {
+        throw new Error("Login failed");
+      }
+      const data = await response.json();
+      await AsyncStorage.setItem("token", data.accessToken); // Assuming these tokens are returned
+      await AsyncStorage.setItem("refreshToken", data.refreshToken);
+      setUser(data);
+      Alert.alert("Login Success", "You're logged in!");
+      navigation.navigate("Dashboard");
+    } catch (error) {
+      console.error(error.message);
+      Alert.alert("Login Failed", error.message);
+    }
+  };
+
+  const signup = async (values, navigation) => {
+    try {
+      const csrfToken = await AsyncStorage.getItem("csrfToken");
+      const response = await fetch("http://127.0.0.1:5555/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRF-TOKEN": csrfToken,
+        },
+        body: JSON.stringify(values),
+      });
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const data = await response.json();
+      setUser(data);
+      await AsyncStorage.setItem("token", data.accessToken);
+      await AsyncStorage.setItem("refreshToken", data.refreshToken);
+      navigation.navigate("Dashboard");
+    } catch (error) {
+      Alert.alert("Error", "Sign up failed. Please try again.");
+    }
+  };
+
+  const logout = () => {
+    setLoadingLogout(true);
+    return fetch("/user/logout", {
+      method: "DELETE",
+    })
+      .then((resp) => {
+        if (resp.ok) {
+          setUser(null);
+          return true;
+        } else {
+          return false;
+        }
+      })
+      .catch(() => false)
+      .finally(() => {});
   };
 
   const refreshUser = () => {
@@ -70,81 +140,6 @@ export const AuthProvider = ({ children }) => {
       });
   };
 
-  const login = async (userInfo, navigation) => {
-    try {
-      const { email, password } = userInfo;
-      const response = await fetch("http://127.0.0.1:5555/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-          "X-CSRF-TOKEN": getCookie("csrf_refresh_token"),
-        },
-        body: JSON.stringify({
-          email,
-          password,
-        }),
-      });
-      if (!response.ok) {
-        throw new Error("Login failed");
-      }
-      const data = await response.json();
-      Alert.alert("Login Success", "You're logged in!");
-      navigation.navigate("Dashboard");
-    } catch (error) {
-      console.log(error.message);
-      Alert.alert("Login Failed", error.message);
-    }
-  };
-
-  const signup = (values) => {
-    return fetch("http://127.0.0.1:5555/register", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(values),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        console.log(response);
-        return response.json();
-      })
-      .then((data) => {
-        if (!data) {
-          throw new Error("No data returned from signup");
-        }
-        setUser(data);
-        console.log(user);
-        navigation.navigate("Dashboard");
-
-        return true;
-      })
-      .catch((error) => {
-        Alert.alert("Error", "Sign up failed. Please try again.");
-        return false;
-      });
-  };
-
-  const logout = () => {
-    setLoadingLogout(true);
-    return fetch("/user/logout", {
-      method: "DELETE",
-    })
-      .then((resp) => {
-        if (resp.ok) {
-          setUser(null);
-          return true;
-        } else {
-          return false;
-        }
-      })
-      .catch(() => false)
-      .finally(() => {});
-  };
-
   //   const fetchUserNameByID = async () => {
   //     try {
   //       const response = await fetch(`/users/${selectedPost.user_id}`);
@@ -172,6 +167,7 @@ export const AuthProvider = ({ children }) => {
         signup,
         logout,
         getCookie,
+        refreshUser,
       }}
     >
       {children}
