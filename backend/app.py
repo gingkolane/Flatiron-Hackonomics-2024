@@ -15,6 +15,8 @@ from models.users import User
 from routes.auth.login import Login
 from routes.auth.logout import Logout
 from routes.auth.register import Register
+from routes.auth.current_user import CurrentUser
+from routes.auth.refresh import Refresh
 
 
 # Resources
@@ -22,6 +24,8 @@ from routes.auth.register import Register
 api.add_resource(Login, '/login')
 api.add_resource(Logout, '/logout')
 api.add_resource(Register, '/register')
+api.add_resource(CurrentUser, '/currentuser')
+api.add_resource(Refresh, '/refresh')
 
 
 # Register a callback function that loads a user from your database whenever 
