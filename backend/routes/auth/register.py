@@ -1,5 +1,5 @@
 # REGISTER/SIGNUP ROUTE
-from .. import make_response, request, session, Resource
+from .. import make_response, request, Resource
 from models.users import User
 from app_setup import db
 from flask_jwt_extended import (
@@ -28,7 +28,6 @@ class Register(Resource):
                     new_user = User(first_name=user_data.get('first_name'), last_name=user_data.get('last_name'), email=user_data.get('email'))
                     # Hash password
                     new_user.password_hash = request.json.get('password')
-                    import ipdb; ipdb.set_trace()
                     # Add user to db session
                     db.session.add(new_user)
                     db.session.commit()
