@@ -37,7 +37,11 @@ export const AuthProvider = ({ children }) => {
         throw new Error("Login failed");
       }
       const data = await response.json();
-      await AsyncStorage.setItem("token", data.accessToken); // Assuming these tokens are returned
+      console.log(data);
+      if (!data.accessToken || !data.refreshToken) {
+        throw new Error("Missing access tokens");
+      }
+      await AsyncStorage.setItem("token", data.accessToken);
       await AsyncStorage.setItem("refreshToken", data.refreshToken);
       setUser(data);
       Alert.alert("Login Success", "You're logged in!");
@@ -50,7 +54,7 @@ export const AuthProvider = ({ children }) => {
 
   const signup = async (values, navigation) => {
     try {
-      const csrfToken = await AsyncStorage.getItem("csrfToken");
+      const csrfToken = (await AsyncStorage.getItem("csrfToken")) || "";
       const response = await fetch("http://127.0.0.1:5555/register", {
         method: "POST",
         headers: {
@@ -59,36 +63,61 @@ export const AuthProvider = ({ children }) => {
         },
         body: JSON.stringify(values),
       });
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
       const data = await response.json();
-      setUser(data);
-      await AsyncStorage.setItem("token", data.accessToken);
-      await AsyncStorage.setItem("refreshToken", data.refreshToken);
-      navigation.navigate("Dashboard");
+      if (!response.ok) {
+        const errorMessage = data.error || "Signup failed due to server error";
+        console.log(errorMessage);
+        Alert.alert("Signup Error", errorMessage);
+        return; // Stop further execution in case of a non-ok response
+      }
+
+      if (data.accessToken && data.refreshToken) {
+        await AsyncStorage.multiSet([
+          ["token", data.accessToken],
+          ["refreshToken", data.refreshToken],
+        ]);
+        setUser(data);
+        navigation.navigate("Dashboard");
+      } else {
+        console.log("Missing tokens in response");
+        throw new Error(
+          "Signup succeeded, but tokens are missing in the response."
+        );
+      }
+      // await AsyncStorage.setItem("token", data.accessToken);
+      // await AsyncStorage.setItem("refreshToken", data.refreshToken);
     } catch (error) {
-      Alert.alert("Error", "Sign up failed. Please try again.");
+      console.log(error);
+      Alert.alert(
+        "Signup Failed",
+        error.message || "An unexpected error occurred. Please try again."
+      );
     }
   };
 
-  const logout = () => {
-    setLoadingLogout(true);
-    return fetch("/user/logout", {
-      method: "DELETE",
-    })
-      .then((resp) => {
-        if (resp.ok) {
-          setUser(null);
-          return true;
-        } else {
-          return false;
-        }
-      })
-      .catch(() => false)
-      .finally(() => {});
+  const logout = async () => {
+    try {
+      // Example fetch call to notify backend about logout
+      const response = await fetch("http://127.0.0.1:5555/user/logout", {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${await AsyncStorage.getItem("token")}`,
+        },
+      });
+      if (response.ok) {
+        // Clear AsyncStorage tokens
+        await AsyncStorage.removeItem("token");
+        await AsyncStorage.removeItem("refreshToken");
+        // Update user state
+        setUser(null);
+        // Optionally navigate to login screen or another appropriate screen
+      } else {
+        console.error("Logout failed with response:", response.status);
+      }
+    } catch (error) {
+      console.error("Logout error:", error);
+    }
   };
-
   const refreshUser = () => {
     return fetch("/user", {
       credentials: "include",

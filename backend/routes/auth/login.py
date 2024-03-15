@@ -20,10 +20,14 @@ class Login(Resource):
             if user and user.authenticate(data.get('password')):
                 # Create an access token for the user using id
                 jwt = create_access_token(identity=user.id)
+                # access_token = create_access_token(identity=user.id)
+
                 # Manually set refresh token
                 refresh_token = create_refresh_token(identity=user.id)
                 # Prepackage the response using data
-                user_data = user.to_dict()
+                user_data = user.to_dict() if hasattr(user, 'to_dict') else {}  # Ensure user has a to_dict method or handle accordingly
+                user_data['accessToken'] = jwt
+                user_data['refreshToken'] = refresh_token
                 response = make_response(user_data, 200)
                 # Set both cookies on the response- will be sent along with every request until unset
                 set_access_cookies(response, jwt)

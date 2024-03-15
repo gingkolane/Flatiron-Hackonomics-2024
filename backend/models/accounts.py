@@ -11,5 +11,5 @@ class Account(db.Model, SerializerMixin):
     account_number = db.Column(db.String(100), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
-    user = db.relationship('User', back_populates='accounts')
+    # user = db.relationship('User', back_populates='accounts')
     expenses = db.relationship('Expense', back_populates='account')

@@ -39,7 +39,6 @@ const LoginPage = ({ navigation, route }) => {
           touched,
         }) => (
           <>
-            <Image />
             <Text variant="displayMedium" style={styles.title}>
               Login
             </Text>

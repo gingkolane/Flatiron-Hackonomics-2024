@@ -1,7 +1,7 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, Button } from "react-native";
 import React from "react";
 
-const Dashboard = () => {
+const Dashboard = ({ navigation }) => {
   return (
     <View>
       <Button
@@ -17,6 +17,13 @@ const Dashboard = () => {
         onPress={() => navigation.navigate("Budget")}
       >
         Budget
+      </Button>
+      <Button
+        mode="elevated"
+        title="Go to Transactions"
+        onPress={() => navigation.navigate("TransactionPage")}
+      >
+        Transactions
       </Button>
     </View>
   );

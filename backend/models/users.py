@@ -17,9 +17,9 @@ class User(db.Model, SerializerMixin):
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, server_default=db.func.now(), server_onupdate=db.func.now())
 
-    accounts = db.relationship('Account', back_populates='user', cascade='all, delete-orphan')
-    achievements = db.relationship('Achievement', back_populates='user', cascade='all, delete-orphan')
-    expenses = db.relationship('Expense', back_populates='user', cascade='all, delete-orphan')
+    # accounts = db.relationship('Account', back_populates='user', cascade='all, delete-orphan')
+    # achievements = db.relationship('Achievement', back_populates='user', cascade='all, delete-orphan')
+    # expenses = db.relationship('Expense', back_populates='user', cascade='all, delete-orphan')
 
     @hybrid_property
     def password_hash(self):
