@@ -1,25 +1,24 @@
 from app_setup import db
 from sqlalchemy.orm import validates
 from sqlalchemy_serializer import SerializerMixin
-from users import User
-from accounts import Account
+from sqlalchemy import sql
 
-class Expenses(db.Model, SerializerMixin):
-    __tablename__ = "expenses"
+from models.accounts import Account
+
+class Transaction(db.Model, SerializerMixin):
+    __tablename__ = "transactions"
 
     id = db.Column(db.Integer, primary_key=True)
     transaction_date = db.Column(db.DateTime, server_default=db.func.now())
     name = db.Column(db.String, nullable=False)
     amount = db.Column(db.Float, nullable=False)
     category = db.Column(db.String, nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     account_id = db.Column(db.Integer, db.ForeignKey("accounts.id"))
-    completed = db.Column(db.Boolean, nullable=False, server_default=False)
-    recurring = db.Column(db.Boolean, nullable=False, server_default=False)
+    completed = db.Column(db.Boolean, nullable=False, server_default=sql.expression.false())
+    recurring = db.Column(db.Boolean, nullable=False, server_default=sql.expression.false())
 
-    # Relationships
-    user = db.relationship("User", back_populates="expenses")
-    account = db.relationship("Account", back_populates="expenses")
+    # # Relationships
+    account = db.relationship("Account", back_populates="transactions")
 
     # Validations
     @validates("name")

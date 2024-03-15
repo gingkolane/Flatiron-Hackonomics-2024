@@ -1,6 +1,7 @@
 # This file will be used to seed mock data
 from models.users import User
 from models.accounts import Account
+from models.transactions import Transaction
 from app_setup import app, db
 from datetime import datetime
 
@@ -39,40 +40,84 @@ with app.app_context():
     # Create accounts
     print('Creating accounts...')
     account1 = Account(
-        bank_name='Bank1',
-        account_number='123',
+        id='QlRwmeljv1fxg3aolDwXSe4Kqwv3RjFwmvbzN',
+        name='Bank1',
+        balance=1000,
+        type='Checking',
+        currency='USD',
         user_id=user1.id
     )
 
     account2 = Account(
-        bank_name='Bank2',
-        account_number='456',
+        id='QlRwmeljv1fxg3aolDwXSe4Kqwv3RjFwmvbzN2',
+        name='Bank2',
+        balance=100,
+        type='Savings',
+        currency='USD',
         user_id=user1.id
     )
 
     account3 = Account(
-        bank_name='Bank3',
-        account_number='789',
+        id='QlRwmeljv1fxg3aolDwXSe4Kqwv3RjFwmvbzN3',
+        name='Bank3',
+        balance=10,
+        type='Checking',
+        currency='GBP',
         user_id=user2.id
     )
 
     account4 = Account(
-        bank_name='Bank4',
-        account_number='101112',
+        id='QlRwmeljv1fxg3aolDwXSe4Kqwv3RjFwmvbzN4',
+        name='Bank4',
+        balance=70,
+        type='Credit',
+        currency='GBP',
+        limit=300,
         user_id=user2.id
     )
 
-    account5 = Account(
-        bank_name='Bank5',
-        account_number='131415',
-        user_id=user3.id
-    )
-
-    account6 = Account(
-        bank_name='Bank6',
-        account_number='161718',
-        user_id=user3.id
-    )
-
-    db.session.add_all([account1, account2, account3, account4, account5, account6])
+    db.session.add_all([account1, account2, account3, account4])
     db.session.commit()
+
+    # Create transations
+    print('Creating transactions...')
+    transaction1 = Transaction(
+        name='Transaction1',
+        amount=100,
+        category='Category1',
+        account_id=account1.id,
+        completed=True,
+        recurring=False
+    )
+
+    transaction2 = Transaction(
+        name='Transaction2',
+        amount=200,
+        category='Category2',
+        account_id=account1.id,
+        completed=True,
+        recurring=False
+    )
+
+    transaction3 = Transaction(
+        name='Transaction3',
+        amount=300,
+        category='Category3',
+        account_id=account2.id,
+        completed=True,
+        recurring=False
+    )
+
+    transaction4 = Transaction(
+        name='Transaction4',
+        amount=-200,
+        category='Category4',
+        account_id=account2.id,
+        completed=True,
+        recurring=False
+    )
+
+    db.session.add_all([transaction1, transaction2, transaction3, transaction4])
+    db.session.commit()
+    
+    print('Seeding complete!')
