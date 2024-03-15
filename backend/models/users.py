@@ -1,9 +1,9 @@
+import re
+from app_setup import bcrypt, db
 from sqlalchemy.orm import validates
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy_serializer import SerializerMixin
-import re
 
-from app_setup import bcrypt, db
 
 
 class User(db.Model, SerializerMixin):
