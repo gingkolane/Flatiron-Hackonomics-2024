@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { Button } from "react-native-paper";
+import BottomNav from "./BottomNav";
 
 const Dashboard = ({ navigation }) => {
   return (
@@ -26,6 +27,7 @@ const Dashboard = ({ navigation }) => {
       >
         Transactions
       </Button>
+      {/* <BottomNav /> */}
     </View>
   );
 };

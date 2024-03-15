@@ -1,8 +1,15 @@
 import React, { useState } from "react";
 import { Formik } from "formik";
-import { TextInput, Button, Text, Chip } from "react-native-paper";
+import { TextInput, Button, Text } from "react-native-paper";
 
-import { View, Alert, SafeAreaView, StyleSheet } from "react-native";
+import {
+  View,
+  Alert,
+  SafeAreaView,
+  StyleSheet,
+  Image,
+  ScrollView,
+} from "react-native";
 import { useAuth } from "./AuthContext";
 import * as Yup from "yup";
 
@@ -29,114 +36,123 @@ const SignUp = ({ navigation }) => {
   });
 
   return (
-    <SafeAreaView className="flex-1 justify-center items-center px-4 bg-mint-green">
-      <Text variant="displayMedium" style={styles.title}>
-        Sign Up
-      </Text>
-      <Formik
-        initialValues={{
-          first_name: "",
-          last_name: "",
-          email: "",
-          password: "",
-        }}
-        validationSchema={SignupSchema}
-        onSubmit={(values) => {
-          signup(values).then((success) => {
-            if (success) {
-              console.log("Sign up successful");
-            } else {
-              console.log("Sign up failed");
-            }
-          });
-        }}
-      >
-        {({
-          handleChange,
-          handleBlur,
-          handleSubmit,
-          values,
-          errors,
-          touched,
-        }) => (
-          <>
-            <TextInput
-              className="w-3/4 mb-5 bg-magnetic-grey rounded-lg shadow-sm"
-              onChangeText={handleChange("first_name")}
-              onBlur={handleBlur("first_name")}
-              value={values.first_name}
-              placeholder="First Name"
-            />
+    <ScrollView>
+      <SafeAreaView className="flex-1 justify-center items-center px-4 bg-mint-green ">
+        <View className="p-3 bg-money-green w-1/2 mx-auto rounded-2xl mb-5 mt-5">
+          <Image
+            className=" w-44 h-44 "
+            source={{ uri: "https://i.imgur.com/UjHoQLk.png" }}
+            onError={(e) => console.log(e.nativeEvent.error)} // Log image loading errors
+          />
+        </View>
+        <Text variant="displayMedium" style={styles.title}>
+          Sign Up
+        </Text>
+        <Formik
+          initialValues={{
+            first_name: "",
+            last_name: "",
+            email: "",
+            password: "",
+          }}
+          validationSchema={SignupSchema}
+          onSubmit={(values) => {
+            signup(values).then((success) => {
+              if (success) {
+                console.log("Sign up successful");
+              } else {
+                console.log("Sign up failed");
+              }
+            });
+          }}
+        >
+          {({
+            handleChange,
+            handleBlur,
+            handleSubmit,
+            values,
+            errors,
+            touched,
+          }) => (
+            <>
+              <TextInput
+                className="w-3/4 mt-5 bg-magnetic-grey rounded-lg shadow-sm p-1"
+                onChangeText={handleChange("first_name")}
+                onBlur={handleBlur("first_name")}
+                value={values.first_name}
+                placeholder="First Name"
+              />
 
-            {touched.first_name && errors.first_name && (
-              <Chip
-                style={styles.error}
-                className="mb-4 bg-magnetic-grey rounded-lg shadow-sm"
+              {touched.first_name && errors.first_name && (
+                <Text
+                  style={styles.error}
+                  className=" bg-magnetic-grey rounded-lg shadow-sm p-1"
+                >
+                  {errors.first_name}
+                </Text>
+              )}
+              <TextInput
+                className="w-3/4 mt-5 bg-magnetic-grey rounded-lg shadow-sm p-1"
+                onChangeText={handleChange("last_name")}
+                onBlur={handleBlur("last_name")}
+                value={values.last_name}
+                placeholder="Last Name"
+              />
+
+              {touched.last_name && errors.last_name && (
+                <Text
+                  style={styles.error}
+                  className="  bg-magnetic-grey rounded-lg shadow-sm p-1"
+                >
+                  {errors.last_name}
+                </Text>
+              )}
+              <TextInput
+                className="w-3/4 mt-5 bg-magnetic-grey"
+                onChangeText={handleChange("email")}
+                onBlur={handleBlur("email")}
+                value={values.email}
+                placeholder="Email"
+              />
+
+              {touched.email && errors.email && (
+                <Text style={styles.error} className=" bg-magnetic-grey p-1">
+                  {errors.email}
+                </Text>
+              )}
+              <TextInput
+                className="w-3/4 bg-magnetic-grey mt-5"
+                onChangeText={handleChange("password")}
+                onBlur={handleBlur("password")}
+                value={values.password}
+                placeholder="password"
+              />
+
+              {touched.password && errors.password && (
+                <Text style={styles.error} className="bg-magnetic-grey p-1">
+                  {errors.password}
+                </Text>
+              )}
+
+              <Button
+                mode="contained"
+                onPress={handleSubmit}
+                className="bg-magnetic-plum mt-5"
               >
-                {errors.first_name}
-              </Chip>
-            )}
-            <TextInput
-              className="w-3/4 mb-5 bg-magnetic-grey rounded-lg shadow-sm"
-              onChangeText={handleChange("last_name")}
-              onBlur={handleBlur("last_name")}
-              value={values.last_name}
-              placeholder="Last Name"
-            />
-
-            {touched.last_name && errors.last_name && (
-              <Chip
-                style={styles.error}
-                className="mb-4 bg-magnetic-grey rounded-lg shadow-sm"
-              >
-                {errors.last_name}
-              </Chip>
-            )}
-            <TextInput
-              className="w-3/4 mb-5 bg-magnetic-grey"
-              onChangeText={handleChange("email")}
-              onBlur={handleBlur("email")}
-              value={values.email}
-              placeholder="Email"
-            />
-
-            {touched.email && errors.email && (
-              <Chip style={styles.error} className="mb-4 bg-magnetic-grey">
-                {errors.email}
-              </Chip>
-            )}
-            <TextInput
-              className="w-3/4 mb-5 bg-magnetic-grey"
-              onChangeText={handleChange("password")}
-              onBlur={handleBlur("password")}
-              value={values.password}
-              placeholder="password"
-            />
-
-            {touched.password && errors.password && (
-              <Chip style={styles.error} className="mb-4 bg-magnetic-grey">
-                {errors.password}
-              </Chip>
-            )}
-
-            <Button
-              mode="contained"
-              onPress={handleSubmit}
-              className="bg-magnetic-plum"
-            >
-              Sign up
-            </Button>
-          </>
-        )}
-      </Formik>
-      <Text>Already a member? </Text>
-      <Button
-        title="Sign In"
-        onPress={() => navigation.navigate("SignIn", { name: "Sign In" })}
-      >
-        Sign in
-      </Button>
-    </SafeAreaView>
+                Sign up
+              </Button>
+            </>
+          )}
+        </Formik>
+        <Text>Already a member? </Text>
+        <Button
+          title="Sign In"
+          onPress={() => navigation.navigate("SignIn", { name: "Sign In" })}
+        >
+          Sign in
+        </Button>
+      </SafeAreaView>
+    </ScrollView>
   );
 };
 

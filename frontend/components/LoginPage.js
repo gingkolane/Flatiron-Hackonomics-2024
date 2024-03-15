@@ -22,7 +22,6 @@ const LoginPage = ({ navigation, route }) => {
   const onDismissSnackBar = () => setVisible(false);
   return (
     <View style={styles.container} className="bg-mint-green">
-      <Image source={{ uri: "https://i.imgur.com/UjHoQLkh.png" }} />
       <Formik
         initialValues={{ email: "", password: "" }}
         validationSchema={LoginSchema}
@@ -39,11 +38,18 @@ const LoginPage = ({ navigation, route }) => {
           touched,
         }) => (
           <>
+            <View className="p-3 bg-money-green w-1/2 mx-auto rounded-2xl mb-5">
+              <Image
+                className=" w-44 h-44 "
+                source={{ uri: "https://i.imgur.com/UjHoQLk.png" }}
+                onError={(e) => console.log(e.nativeEvent.error)} // Log image loading errors
+              />
+            </View>
             <Text variant="displayMedium" style={styles.title}>
               Login
             </Text>
             <TextInput
-              className="w-3/4 mb-5 bg-magnetic-grey rounded-lg shadow-sm"
+              className="w-3/4  bg-magnetic-grey rounded-lg shadow-sm"
               // style={styles.input}
               onChangeText={handleChange("email")}
               onBlur={handleBlur("email")}
@@ -52,15 +58,13 @@ const LoginPage = ({ navigation, route }) => {
               keyboardType="email-address"
             />
             {touched.email && errors.email && (
-              <Chip
-                style={styles.error}
-                className="mb-4 bg-magnetic-grey rounded-lg shadow-sm"
-              >
+              <Text style={styles.error} className="p-1 bg-magnetic-grey">
                 {errors.email}
-              </Chip>
+              </Text>
             )}
+
             <TextInput
-              className="w-3/4 mb-5 bg-magnetic-grey rounded-lg"
+              className="w-3/4 bg-magnetic-grey rounded-lg mt-5"
               // style={styles.input}
               onChangeText={handleChange("password")}
               onBlur={handleBlur("password")}
@@ -69,12 +73,12 @@ const LoginPage = ({ navigation, route }) => {
               secureTextEntry
             />
             {touched.password && errors.password && (
-              <Chip style={styles.error} className="mb-4 bg-magnetic-grey">
+              <Text style={styles.error} className="p-1  bg-magnetic-grey">
                 {errors.password}
-              </Chip>
+              </Text>
             )}
             <Button
-              className="bg-magnetic-plum"
+              className="bg-magnetic-plum mt-5"
               mode="contained"
               title="Login"
               onPress={handleSubmit}

@@ -13,7 +13,7 @@ const HomeScreen = ({ navigation }) => {
         />
       </View>
       <Button
-        className="m-5"
+        className="m-5 bg-magnetic-grey"
         title="Sign In"
         mode="elevated"
         onPress={() => navigation.navigate("SignIn", { name: "Sign In" })}
@@ -21,7 +21,7 @@ const HomeScreen = ({ navigation }) => {
         Sign In
       </Button>
       <Button
-        className="m-5"
+        className="m-5 bg-magnetic-grey"
         title="Sign Up"
         mode="elevated"
         onPress={() => navigation.navigate("SignUp", { name: "Sign Up" })}
