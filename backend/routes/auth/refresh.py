@@ -2,5 +2,6 @@ from app_setup import Resource, make_response, db, jwt_required, get_jwt_identit
 from models.users import User
 
 class Refresh(Resource):
+    @jwt_required(refresh=True)
     def post(self):
         pass
