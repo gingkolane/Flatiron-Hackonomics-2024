@@ -63,31 +63,33 @@ export const AuthProvider = ({ children }) => {
         },
         body: JSON.stringify(values),
       });
-      const data = await response.json();
+
+      const data = await response.json(); // Always attempt to parse JSON first
+
       if (!response.ok) {
         const errorMessage = data.error || "Signup failed due to server error";
-        console.log(errorMessage);
+        console.error(errorMessage); // Use console.error for errors
         Alert.alert("Signup Error", errorMessage);
-        return; // Stop further execution in case of a non-ok response
+        return; // Early return on error
       }
 
+      // Assuming `setUser` and `AsyncStorage.multiSet` are correctly defined elsewhere
       if (data.accessToken && data.refreshToken) {
         await AsyncStorage.multiSet([
           ["token", data.accessToken],
           ["refreshToken", data.refreshToken],
         ]);
+        // Assuming setUser is a function that updates the user state/context
         setUser(data);
         navigation.navigate("Dashboard");
       } else {
-        console.log("Missing tokens in response");
+        console.error("Missing tokens in response"); // Use console.error for errors
         throw new Error(
           "Signup succeeded, but tokens are missing in the response."
         );
       }
-      // await AsyncStorage.setItem("token", data.accessToken);
-      // await AsyncStorage.setItem("refreshToken", data.refreshToken);
     } catch (error) {
-      console.log(error);
+      console.error(error); // Use console.error for errors
       Alert.alert(
         "Signup Failed",
         error.message || "An unexpected error occurred. Please try again."
