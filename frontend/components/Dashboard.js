@@ -1,9 +1,10 @@
-import { StyleSheet, Text, View, Button } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import React from "react";
+import { Button } from "react-native-paper";
 
 const Dashboard = ({ navigation }) => {
   return (
-    <View>
+    <View className="bg-mint-green flex-1 justify-evenly">
       <Button
         mode="elevated"
         title="Account"
