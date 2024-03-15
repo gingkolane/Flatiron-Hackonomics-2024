@@ -2,6 +2,7 @@
 
 # Local imports
 from app_setup import app, db, api, jwt
+from jwt.exceptions import DecodeError
 
 # Remote library imports
 from flask_restful import Resource

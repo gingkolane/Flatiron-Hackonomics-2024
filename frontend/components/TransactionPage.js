@@ -31,7 +31,7 @@ const TransactionPage = () => {
   }, []);
 
   return (
-    <View style={styles.container}>
+    <View style={styles.container} className="bg-mint-green">
       {isLoading ? (
         <ActivityIndicator size="large" color="#6200ee" />
       ) : (

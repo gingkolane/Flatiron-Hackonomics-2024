@@ -1,7 +1,7 @@
 # Standard library imports
 
 # Remote library imports
-from flask import Flask
+from flask import Flask, jsonify
 from flask_cors import CORS
 from flask_migrate import Migrate
 from flask_restful import Api
@@ -39,13 +39,23 @@ metadata = MetaData(naming_convention={
     "ck": "ck_%(table_name)s_%(constraint_name)s",
     "fk": "fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s",
     "pk": "pk_%(table_name)s"})
-#! flask-sqlalchemy setup
-db = SQLAlchemy(app)
-#! flask-migrate setup
+db = SQLAlchemy(metadata=metadata)
 migrate = Migrate(app, db)
-#! flask-bcrypt
-bcrypt = Bcrypt(app)
-#! flask-restful setup
-api = Api(app)
-#! flask-jwt-extended setup
+db.init_app(app)
 jwt = JWTManager(app)
+
+# Instantiate REST API
+api = Api(app)
+
+# Instantiate CORS
+CORS(app)
+
+cors = CORS(
+    app,
+    supports_credentials=True,
+    resources={
+        r"/register": {"origins": "exp://10.0.0.31:8081"},
+    },
+)
+bcrypt = Bcrypt(app)
+ 
