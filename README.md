@@ -46,3 +46,15 @@ Good luck! If you encounter any issues, don't hesitate to message Landon for hel
    - In your terminal, type `python` and press enter to enter a python environment. Run the following commands: `import secrets` and `print(secrets.token_hex())`
    - Copy the output and paste it after the `=`. It should look something like `APP_SECRET=f440a395514e01d80d85c94c4d711cc7ddbbb8073e0e5e9541c005045fc75ef7`
    - Repeat for `JWT_SECRET_KEY` (Should be different than APP_SECRET)
+
+3. Initialize the database:
+   - Make sure you are within the backend folder: (run `cd backend/`)
+   - Run the following commands:
+      - `export FLASK_APP=app.py` and `export FLASK_RUN_PORT=5555`
+      - `flask db init`
+      - `flask db migrate -m 'initial migration'`
+      - `flask db upgrade head`
+   - Then run `python seed.py` to seed the data
+
+4. Start the server:
+   - To start the server, run `python app.py` within the backend folder
