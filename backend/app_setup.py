@@ -58,4 +58,3 @@ cors = CORS(
     },
 )
 bcrypt = Bcrypt(app)
- 

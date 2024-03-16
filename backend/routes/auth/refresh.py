@@ -1,5 +1,14 @@
-from app_setup import Resource, make_response, db, jwt_required, get_jwt_identity, create_access_token, set_access_cookies
+from flask_restful import Resource
+from app_setup import db
+from flask import make_response
 from models.users import User
+from flask_jwt_extended import (
+    jwt_required,
+    get_jwt_identity,
+    create_access_token,
+    set_access_cookies
+)
+
 
 class Refresh(Resource):
     @jwt_required(refresh=True)
