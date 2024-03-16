@@ -5,27 +5,25 @@ from app_setup import app, db, api, jwt
 from jwt.exceptions import DecodeError
 
 # Remote library imports
-from flask_restful import Resource
+# from flask_restful import Resource
 
 # Model imports
 from models.users import User
 
 # Route imports
-#! Authentication
+from routes.auth.signup import Signup
 from routes.auth.login import Login
 from routes.auth.logout import Logout
-from routes.auth.register import Register
 from routes.auth.current_user import CurrentUser
 from routes.auth.refresh import Refresh
 
 
 # Resources
-#! Authentication
-api.add_resource(Login, '/login')
-api.add_resource(Logout, '/logout')
-api.add_resource(Register, '/register')
-api.add_resource(CurrentUser, '/currentuser')
-api.add_resource(Refresh, '/refresh')
+api.add_resource(Signup, '/api/signup', endpoint='/api/auth')
+api.add_resource(Login, '/api/login', endpoint='/api/login')
+api.add_resource(Logout, '/api/logout', endpoint='/api/logout')
+api.add_resource(CurrentUser, '/api/currentuser', endpoint='/api/currentuser')
+api.add_resource(Refresh, '/api/refresh', endpoint='/api/refresh')
 
 
 # Register a callback function that loads a user from your database whenever 
