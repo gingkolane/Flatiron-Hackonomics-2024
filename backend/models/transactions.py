@@ -44,11 +44,11 @@ class Transaction(db.Model, SerializerMixin):
         return value
     
     #NOT SURE IF WE ARE USING SESSION BASED AUTH
-    @validates("user_id")
-    def user_id_validation(self, _, user_id):
-        if not user_id and db.session.get(User, user_id):
-            raise Exception("User id must be a valid user")
-        return user_id
+    # @validates("user_id")
+    # def user_id_validation(self, _, user_id):
+    #     if not user_id and db.session.get(User, user_id):
+    #         raise Exception("User id must be a valid user")
+    #     return user_id
     
     @validates("account_id")
     def user_id_validation(self, _, user_id):
