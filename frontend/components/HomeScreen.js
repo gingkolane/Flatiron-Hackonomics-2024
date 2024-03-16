@@ -5,8 +5,15 @@ import { TextInput, Button, Text, Snackbar } from "react-native-paper";
 const HomeScreen = ({ navigation }) => {
   return (
     <SafeAreaView className="bg-mint-green justify-center flex-1">
+      <View className="p-3 bg-money-green w-1/2 mx-auto rounded-2xl mb-5">
+        <Image
+          className=" w-44 h-44 "
+          source={{ uri: "https://i.imgur.com/UjHoQLk.png" }}
+          onError={(e) => console.log(e.nativeEvent.error)} // Log image loading errors
+        />
+      </View>
       <Button
-        className="m-5"
+        className="m-5 bg-magnetic-grey"
         title="Sign In"
         mode="elevated"
         onPress={() => navigation.navigate("SignIn", { name: "Sign In" })}
@@ -14,7 +21,7 @@ const HomeScreen = ({ navigation }) => {
         Sign In
       </Button>
       <Button
-        className="m-5"
+        className="m-5 bg-magnetic-grey"
         title="Sign Up"
         mode="elevated"
         onPress={() => navigation.navigate("SignUp", { name: "Sign Up" })}
@@ -48,7 +55,7 @@ const HomeScreen = ({ navigation }) => {
         onPress={() => navigation.navigate("Budget")}
       >
         Budget
-      </Button>
+      </Button> */}
     </SafeAreaView>
   );
 };

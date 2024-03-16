@@ -37,6 +37,7 @@ const TransactionPage = ({ navigation }) => { // Ensure navigation is received h
   };
 
   return (
+
     <View style={styles.container}>
       <ReceiptScanner onCameraActiveChange={handleCameraActiveChange} />
       {!isCameraActive && (
@@ -60,6 +61,7 @@ const TransactionPage = ({ navigation }) => { // Ensure navigation is received h
             )}
           />
         )
+
       )}
     </View>
   );

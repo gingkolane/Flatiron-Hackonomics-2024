@@ -1,9 +1,6 @@
 from app_setup import db
 from sqlalchemy_serializer import SerializerMixin
 
-
-
-
 class Account(db.Model, SerializerMixin):
     __tablename__ = 'accounts'
 
@@ -18,4 +15,4 @@ class Account(db.Model, SerializerMixin):
     user = db.relationship('User', back_populates='accounts')
     transactions = db.relationship('Transaction', back_populates='account')
 
-from models.transactions import Transaction
+

@@ -1,7 +1,7 @@
 # IMPORT STATEMENTS
-from .. import make_response, request, session, Resource # Imported from __init__.py
+from flask import make_response
+from flask_restful import request, Resource
 from models.users import User
-from app_setup import db
 from flask_jwt_extended import (
     create_access_token,
     create_refresh_token,
@@ -23,7 +23,9 @@ class Login(Resource):
                 # Manually set refresh token
                 refresh_token = create_refresh_token(identity=user.id)
                 # Prepackage the response using data
-                user_data = user.to_dict()
+                user_data = user.to_dict() if hasattr(user, 'to_dict') else {}  # Ensure user has a to_dict method or handle accordingly
+                user_data['accessToken'] = jwt
+                user_data['refreshToken'] = refresh_token
                 response = make_response(user_data, 200)
                 # Set both cookies on the response- will be sent along with every request until unset
                 set_access_cookies(response, jwt)

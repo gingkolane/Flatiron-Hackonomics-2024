@@ -10,6 +10,6 @@
 .env*.local
 
 # database
-backend/instance
+backend/instance/
 
-backend/migrations
+backend/migrations/
