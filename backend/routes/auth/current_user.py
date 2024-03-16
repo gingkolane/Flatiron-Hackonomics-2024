@@ -1,5 +1,11 @@
-from app_setup import Resource, db, jwt_required, get_jwt_identity
+from flask_restful import Resource
+from app_setup import db
 from models.users import User
+from flask_restful import Resource
+from flask_jwt_extended import (
+    jwt_required,
+    get_jwt_identity,
+)
 
 class CurrentUser(Resource):
     @jwt_required()
