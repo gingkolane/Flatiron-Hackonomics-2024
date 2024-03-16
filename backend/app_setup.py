@@ -8,7 +8,7 @@ from flask_restful import Api
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import MetaData
 from flask_bcrypt import Bcrypt
-from flask_jwt_extended import JWTManager, jwt_required, get_jwt_identity, create_access_token, set_access_cookies
+from flask_jwt_extended import JWTManager
 from datetime import timedelta
 import os
 
@@ -58,4 +58,3 @@ cors = CORS(
     },
 )
 bcrypt = Bcrypt(app)
- 

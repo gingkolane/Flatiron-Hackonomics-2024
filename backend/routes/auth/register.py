@@ -1,5 +1,6 @@
 # REGISTER/SIGNUP ROUTE
-from .. import make_response, request, Resource
+from flask import make_response
+from flask_restful import request, Resource
 from models.users import User
 from app_setup import db
 from flask_jwt_extended import (
