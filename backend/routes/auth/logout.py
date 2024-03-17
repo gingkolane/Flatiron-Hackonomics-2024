@@ -1,4 +1,5 @@
-from .. import session, Resource, make_response
+from flask import make_response
+from flask_restful import Resource
 from models.users import User
 from app_setup import db
 from flask_jwt_extended import (
