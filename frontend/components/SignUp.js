@@ -57,7 +57,7 @@ const SignUp = ({ navigation }) => {
           }}
           validationSchema={SignupSchema}
           onSubmit={(values) => {
-            signup(values).then((success) => {
+            signup(values, navigation).then((success) => {
               if (success) {
                 console.log("Sign up successful");
               } else {
@@ -126,6 +126,7 @@ const SignUp = ({ navigation }) => {
                 onBlur={handleBlur("password")}
                 value={values.password}
                 placeholder="password"
+                secureTextEntry
               />
 
               {touched.password && errors.password && (
@@ -135,11 +136,12 @@ const SignUp = ({ navigation }) => {
               )}
 
               <Button
-                mode="contained"
-                onPress={handleSubmit}
                 className="bg-magnetic-plum mt-5"
+                mode="contained"
+                title="SignUp"
+                onPress={handleSubmit}
               >
-                Sign up
+                Sign Up
               </Button>
             </>
           )}
