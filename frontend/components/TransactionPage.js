@@ -4,13 +4,15 @@ import {
   FlatList,
   ActivityIndicator,
   StyleSheet,
-  Text,
+  TouchableOpacity,
 } from "react-native";
 import { Card, Paragraph } from "react-native-paper";
+import ReceiptScanner from "./ReceiptScanner";
 
-const TransactionPage = () => {
+const TransactionPage = ({ navigation }) => { // Ensure navigation is received here
   const [transactions, setTransactions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isCameraActive, setIsCameraActive] = useState(false);
 
   // Mock data that mimics the structure you expect from your backend
   const mockTransactions = [
@@ -30,24 +32,36 @@ const TransactionPage = () => {
     return () => clearTimeout(timer);
   }, []);
 
+  const handleCameraActiveChange = (isActive) => {
+    setIsCameraActive(isActive); // Update based on camera's active state
+  };
+
   return (
-    <View style={styles.container} className="bg-mint-green">
-      {isLoading ? (
-        <ActivityIndicator size="large" color="#6200ee" />
-      ) : (
-        <FlatList
-          data={transactions}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item }) => (
-            <Card style={styles.card}>
-              <Card.Content>
-                <Paragraph>Date: {item.date}</Paragraph>
-                <Paragraph>Amount: {item.amount}</Paragraph>
-                <Paragraph>Category: {item.category}</Paragraph>
-              </Card.Content>
-            </Card>
-          )}
-        />
+
+    <View style={styles.container}>
+      <ReceiptScanner onCameraActiveChange={handleCameraActiveChange} />
+      {!isCameraActive && (
+        isLoading ? (
+          <ActivityIndicator size="large" color="#6200ee" />
+        ) : (
+          <FlatList
+            data={transactions}
+            keyExtractor={(item) => item.id.toString()}
+            contentContainerStyle={styles.flatListContent}
+            renderItem={({ item }) => (
+              <TouchableOpacity onPress={() => navigation.navigate('TransactionDetail', { transaction: item })}>
+                <Card style={styles.card}>
+                  <Card.Content>
+                    <Paragraph>Date: {item.date}</Paragraph>
+                    <Paragraph>Amount: {item.amount}</Paragraph>
+                    <Paragraph>Category: {item.category}</Paragraph>
+                  </Card.Content>
+                </Card>
+              </TouchableOpacity>
+            )}
+          />
+        )
+
       )}
     </View>
   );
@@ -61,6 +75,9 @@ const styles = StyleSheet.create({
   card: {
     margin: 8,
     elevation: 2,
+  },
+  flatListContent: {
+    paddingTop: 10,
   },
 });
 

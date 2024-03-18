@@ -17,6 +17,7 @@ import { AuthProvider } from "./components/AuthContext";
 import LoginPage from "./components/LoginPage";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Budget from "./components/Budget";
+import TransactionDetailPage from "./components/TransactionDetailPage"
 
 const Stack = createNativeStackNavigator();
 
@@ -93,6 +94,25 @@ export default function App() {
                 component={TransactionPage}
                 options={{
                   title: "Transactions",
+                  headerStyle: {
+                    backgroundColor: "#009933",
+                  },
+                  headerTintColor: "#fff",
+                  headerTitleStyle: {
+                    fontWeight: "bold",
+                    fontSize: 22,
+                  },
+                  headerTitleAlign: "center",
+
+                  headerShadowVisible: true,
+                  headerElevation: 4,
+                }}
+              />
+              <Stack.Screen
+                name="TransactionDetail"
+                component={TransactionDetailPage}
+                options={{
+                  title: "TransactionDetailPage",
                   headerStyle: {
                     backgroundColor: "#009933",
                   },
