@@ -12,6 +12,7 @@ import SignUp from './components/SignUp'
 import Dashboard from './components/Dashboard'
 
 import TransactionPage from './components/TransactionPage'
+import TransactionDetailPage from './components/TransactionDetailPage'
 import AccountPage from './components/AccountPage'
 import { AuthProvider } from './components/AuthContext'
 import LoginPage from './components/LoginPage'
@@ -108,7 +109,7 @@ export default function App() {
                 }}
               />
               <Stack.Screen
-                name="TransactionDetail"
+                name="TransactionDetailPage"
                 component={TransactionDetailPage}
                 options={{
                   title: "TransactionDetailPage",
