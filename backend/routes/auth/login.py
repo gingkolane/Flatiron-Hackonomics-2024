@@ -1,7 +1,7 @@
 # IMPORT STATEMENTS
-from .. import make_response, request, session, Resource # Imported from __init__.py
+from flask import make_response
+from flask_restful import request, Resource
 from models.users import User
-from app_setup import db
 from flask_jwt_extended import (
     create_access_token,
     create_refresh_token,
@@ -13,15 +13,13 @@ class Login(Resource):
     def post(self):
         try:
             # Get user input data (email/username, password)
-            data = request.json
+            req = request.get_json()
             # Query database by user email
-            user = User.query.filter_by(email=data.get('email')).first()
+            user = User.query.filter(User.email == req['email']).first()
             # Check if user exists and authenticate
-            if user and user.authenticate(data.get('password')):
+            if user and user.authenticate(req['password']):
                 # Create an access token for the user using id
                 jwt = create_access_token(identity=user.id)
-                # access_token = create_access_token(identity=user.id)
-
                 # Manually set refresh token
                 refresh_token = create_refresh_token(identity=user.id)
                 # Prepackage the response using data
@@ -35,4 +33,4 @@ class Login(Resource):
                 return response
             return {'error': 'Invalid email or password'}, 403
         except Exception as e:
-            return {'error': 'Invalid credentials'}, 403
+            return {'error': e}, 403

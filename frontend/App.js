@@ -108,7 +108,45 @@ export default function App() {
                 }}
               />
               <Stack.Screen
-                name='Dashboard'
+                name="TransactionDetail"
+                component={TransactionDetailPage}
+                options={{
+                  title: "TransactionDetailPage",
+                  headerStyle: {
+                    backgroundColor: "#009933",
+                  },
+                  headerTintColor: "#fff",
+                  headerTitleStyle: {
+                    fontWeight: "bold",
+                    fontSize: 22,
+                  },
+                  headerTitleAlign: "center",
+
+                  headerShadowVisible: true,
+                  headerElevation: 4,
+                }}
+              />
+              <Stack.Screen
+                name="TransactionDetail"
+                component={TransactionDetailPage}
+                options={{
+                  title: "TransactionDetailPage",
+                  headerStyle: {
+                    backgroundColor: "#009933",
+                  },
+                  headerTintColor: "#fff",
+                  headerTitleStyle: {
+                    fontWeight: "bold",
+                    fontSize: 22,
+                  },
+                  headerTitleAlign: "center",
+
+                  headerShadowVisible: true,
+                  headerElevation: 4,
+                }}
+              />
+              <Stack.Screen
+                name="Dashboard"
                 component={Dashboard}
                 options={{
                   title: 'Dashboard',
