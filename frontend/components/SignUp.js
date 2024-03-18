@@ -1,4 +1,5 @@
-import { View, SafeAreaView, Image, ScrollView } from 'react-native'
+import {useState} from 'react'
+import { View, Image, ScrollView } from 'react-native'
 import { TextInput, Button, Text } from 'react-native-paper'
 import { Formik } from 'formik'
 import { useAuth } from './AuthContext'
@@ -6,6 +7,7 @@ import * as Yup from 'yup'
 
 export default function SignUp({ navigation }) {
   const { signup } = useAuth()
+  const [showPassword, setShowPassword] = useState(false)
 
   const SignupSchema = Yup.object().shape({
     first_name: Yup.string()
@@ -15,6 +17,11 @@ export default function SignUp({ navigation }) {
     last_name: Yup.string()
       .min(2, 'Too Short!')
       .max(50, 'Too Long!')
+      .required('Required'),
+    zipcode: Yup.string()
+    .matches(/^[0-9]+$/, 'Your 5-digit zipcode must be a number')
+      .min(5, 'Your 5-digit zipcode must be a number')
+      .max(5, 'Your 5-digit zipcode must be a number')
       .required('Required'),
     email: Yup.string().email('Invalid email').required('Required'),
     password: Yup.string()
@@ -45,6 +52,7 @@ export default function SignUp({ navigation }) {
           initialValues={{
             first_name: '',
             last_name: '',
+            zipcode: '',
             email: '',
             password: '',
           }}
@@ -76,6 +84,7 @@ export default function SignUp({ navigation }) {
                 value={values.first_name}
                 placeholder='First Name'
                 error={touched.first_name && errors.first_name}
+                left={<TextInput.Icon icon='account' />}
               />
               <Text className='text-error-red my-1'>
                 {touched.first_name && errors.first_name
@@ -90,9 +99,23 @@ export default function SignUp({ navigation }) {
                 value={values.last_name}
                 placeholder='Last Name'
                 error={touched.last_name && errors.last_name}
+                left={<TextInput.Icon icon='account' />}
               />
               <Text className='text-error-red my-1'>
                 {touched.last_name && errors.last_name ? errors.last_name : ' '}
+              </Text>
+              <TextInput
+                mode='outlined'
+                className='w-3/4'
+                onChangeText={handleChange('zipcode')}
+                onBlur={handleBlur('zipcode')}
+                value={values.zipcode}
+                placeholder='Zipcode'
+                error={touched.zipcode && errors.zipcode}
+                left={<TextInput.Icon icon='map-marker-radius-outline' />}
+              />
+              <Text className='text-error-red my-1'>
+                {touched.zipcode && errors.zipcode ? errors.zipcode : ' '}
               </Text>
               <TextInput
                 mode='outlined'
@@ -102,6 +125,7 @@ export default function SignUp({ navigation }) {
                 value={values.email}
                 placeholder='Email'
                 error={touched.email && errors.email}
+                left={<TextInput.Icon icon='email' />}
               />
               <Text className='text-error-red my-1'>
                 {touched.email && errors.email ? errors.email : ' '}
@@ -113,8 +137,10 @@ export default function SignUp({ navigation }) {
                 onBlur={handleBlur('password')}
                 value={values.password}
                 placeholder='Password'
-                secureTextEntry
+                secureTextEntry={showPassword}
                 error={touched.password && errors.password}
+                left={<TextInput.Icon icon='lock' />}
+                right={<TextInput.Icon icon='eye' onPress={() => setShowPassword(!showPassword)} />}
               />
               <Text className='text-error-red my-1'>
                 {touched.password && errors.password ? errors.password : ' '}
