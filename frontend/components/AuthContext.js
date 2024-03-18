@@ -23,13 +23,13 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (userInfo, navigation) => {
     try {
-      const csrfToken = await AsyncStorage.getItem("csrfToken"); // Assuming you store CSRF token on login
+      const csrfToken = await AsyncStorage.getItem("csrfToken");
       const { email, password } = userInfo;
       const response = await fetch("http://127.0.0.1:5555/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "X-CSRF-TOKEN": csrfToken, // Adjust as per your CSRF token handling
+          "X-CSRF-TOKEN": csrfToken,
         },
         body: JSON.stringify({ email, password }),
       });
@@ -64,8 +64,8 @@ export const AuthProvider = ({ children }) => {
         body: JSON.stringify(values),
       });
 
-      const data = await response.json(); // Always attempt to parse JSON first
-
+      const data = await response.json();
+      console.log(data);
       if (!response.ok) {
         const errorMessage = data.error || "Signup failed due to server error";
         console.error(errorMessage); // Use console.error for errors
@@ -73,14 +73,17 @@ export const AuthProvider = ({ children }) => {
         return; // Early return on error
       }
 
-      // Assuming `setUser` and `AsyncStorage.multiSet` are correctly defined elsewhere
-      if (data.accessToken && data.refreshToken) {
+      if (
+        data.Success &&
+        data.Success.accessToken &&
+        data.Success.refreshToken
+      ) {
         await AsyncStorage.multiSet([
-          ["token", data.accessToken],
-          ["refreshToken", data.refreshToken],
+          ["token", data.Success.accessToken],
+          ["refreshToken", data.Success.refreshToken],
         ]);
-        // Assuming setUser is a function that updates the user state/context
-        setUser(data);
+
+        setUser(data.Success);
         navigation.navigate("Dashboard");
       } else {
         console.error("Missing tokens in response"); // Use console.error for errors
@@ -89,7 +92,7 @@ export const AuthProvider = ({ children }) => {
         );
       }
     } catch (error) {
-      console.error(error); // Use console.error for errors
+      console.error(error);
       Alert.alert(
         "Signup Failed",
         error.message || "An unexpected error occurred. Please try again."

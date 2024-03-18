@@ -1,69 +1,62 @@
-import React, { useState } from "react";
-import { Formik } from "formik";
-import { TextInput, Button, Text } from "react-native-paper";
+import { View, SafeAreaView, Image, ScrollView } from 'react-native'
+import { TextInput, Button, Text } from 'react-native-paper'
+import { Formik } from 'formik'
+import { useAuth } from './AuthContext'
+import * as Yup from 'yup'
 
-import {
-  View,
-  Alert,
-  SafeAreaView,
-  StyleSheet,
-  Image,
-  ScrollView,
-} from "react-native";
-import { useAuth } from "./AuthContext";
-import * as Yup from "yup";
-
-const SignUp = ({ navigation }) => {
-  const { signup } = useAuth();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [last_name, setlast_name] = useState("");
+export default function SignUp({ navigation }) {
+  const { signup } = useAuth()
 
   const SignupSchema = Yup.object().shape({
     first_name: Yup.string()
-      .min(2, "Too Short!")
-      .max(50, "Too Long!")
-      .required("Required"),
+      .min(2, 'Too Short!')
+      .max(50, 'Too Long!')
+      .required('Required'),
     last_name: Yup.string()
-      .min(2, "Too Short!")
-      .max(50, "Too Long!")
-      .required("Required"),
-    email: Yup.string().email("Invalid email").required("Required"),
+      .min(2, 'Too Short!')
+      .max(50, 'Too Long!')
+      .required('Required'),
+    email: Yup.string().email('Invalid email').required('Required'),
     password: Yup.string()
-      .min(8, "Password is too short - should be 8 chars minimum.")
-      .required("Required"),
-  });
+      .required('Required')
+      .matches(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+        'Password must contain at least 8 characters, one uppercase, one lowercase, one number and one special case character'
+      ),
+  })
 
   return (
-    <ScrollView>
-      <SafeAreaView className="flex-1 justify-center items-center px-4 bg-mint-green ">
-        <View className="p-3 bg-money-green w-1/2 mx-auto rounded-2xl mb-5 mt-5">
-          <Image
-            className=" w-44 h-44 "
-            source={{ uri: "https://i.imgur.com/UjHoQLk.png" }}
-            onError={(e) => console.log(e.nativeEvent.error)} // Log image loading errors
-          />
-        </View>
-        <Text variant="displayMedium" style={styles.title}>
+    <ScrollView className='bg-mint-green'>
+      <View className='p-2 bg-money-green w-1/2 mx-auto rounded-2xl my-2'>
+        <Image
+          className='w-44 h-44'
+          source={require('../assets/Logo.png')}
+          onError={(e) => console.log(e.nativeEvent.error)} // Log image loading errors
+        />
+      </View>
+      <View className='items-center'>
+        <Text
+          className='mb-2'
+          variant='headlineMedium'
+        >
           Sign Up
         </Text>
         <Formik
           initialValues={{
-            first_name: "",
-            last_name: "",
-            email: "",
-            password: "",
+            first_name: '',
+            last_name: '',
+            email: '',
+            password: '',
           }}
           validationSchema={SignupSchema}
           onSubmit={(values) => {
-            signup(values).then((success) => {
+            signup(values, navigation).then((success) => {
               if (success) {
-                console.log("Sign up successful");
+                console.log('Sign up successful')
               } else {
-                console.log("Sign up failed");
+                console.log('Sign up failed')
               }
-            });
+            })
           }}
         >
           {({
@@ -76,104 +69,76 @@ const SignUp = ({ navigation }) => {
           }) => (
             <>
               <TextInput
-                className="w-3/4 mt-5 bg-magnetic-grey rounded-lg shadow-sm p-1"
-                onChangeText={handleChange("first_name")}
-                onBlur={handleBlur("first_name")}
+                mode='outlined'
+                className='w-3/4'
+                onChangeText={handleChange('first_name')}
+                onBlur={handleBlur('first_name')}
                 value={values.first_name}
-                placeholder="First Name"
+                placeholder='First Name'
+                error={touched.first_name && errors.first_name}
               />
-
-              {touched.first_name && errors.first_name && (
-                <Text
-                  style={styles.error}
-                  className=" bg-magnetic-grey rounded-lg shadow-sm p-1"
-                >
-                  {errors.first_name}
-                </Text>
-              )}
+              <Text className='text-error-red my-1'>
+                {touched.first_name && errors.first_name
+                  ? errors.first_name
+                  : ' '}
+              </Text>
               <TextInput
-                className="w-3/4 mt-5 bg-magnetic-grey rounded-lg shadow-sm p-1"
-                onChangeText={handleChange("last_name")}
-                onBlur={handleBlur("last_name")}
+                mode='outlined'
+                className='w-3/4'
+                onChangeText={handleChange('last_name')}
+                onBlur={handleBlur('last_name')}
                 value={values.last_name}
-                placeholder="Last Name"
+                placeholder='Last Name'
+                error={touched.last_name && errors.last_name}
               />
-
-              {touched.last_name && errors.last_name && (
-                <Text
-                  style={styles.error}
-                  className="  bg-magnetic-grey rounded-lg shadow-sm p-1"
-                >
-                  {errors.last_name}
-                </Text>
-              )}
+              <Text className='text-error-red my-1'>
+                {touched.last_name && errors.last_name ? errors.last_name : ' '}
+              </Text>
               <TextInput
-                className="w-3/4 mt-5 bg-magnetic-grey"
-                onChangeText={handleChange("email")}
-                onBlur={handleBlur("email")}
+                mode='outlined'
+                className='w-3/4'
+                onChangeText={handleChange('email')}
+                onBlur={handleBlur('email')}
                 value={values.email}
-                placeholder="Email"
+                placeholder='Email'
+                error={touched.email && errors.email}
               />
-
-              {touched.email && errors.email && (
-                <Text style={styles.error} className=" bg-magnetic-grey p-1">
-                  {errors.email}
-                </Text>
-              )}
+              <Text className='text-error-red my-1'>
+                {touched.email && errors.email ? errors.email : ' '}
+              </Text>
               <TextInput
-                className="w-3/4 bg-magnetic-grey mt-5"
-                onChangeText={handleChange("password")}
-                onBlur={handleBlur("password")}
+                mode='outlined'
+                className='w-3/4'
+                onChangeText={handleChange('password')}
+                onBlur={handleBlur('password')}
                 value={values.password}
-                placeholder="password"
+                placeholder='Password'
+                secureTextEntry
+                error={touched.password && errors.password}
               />
-
-              {touched.password && errors.password && (
-                <Text style={styles.error} className="bg-magnetic-grey p-1">
-                  {errors.password}
-                </Text>
-              )}
+              <Text className='text-error-red my-1'>
+                {touched.password && errors.password ? errors.password : ' '}
+              </Text>
 
               <Button
-                mode="contained"
+                className='bg-magnetic-plum my-2 w-3/4'
+                mode='contained'
+                title='SignUp'
                 onPress={handleSubmit}
-                className="bg-magnetic-plum mt-5"
               >
-                Sign up
+                Sign Up
               </Button>
             </>
           )}
         </Formik>
         <Text>Already a member? </Text>
         <Button
-          title="Sign In"
-          onPress={() => navigation.navigate("SignIn", { name: "Sign In" })}
+          title='Sign In'
+          onPress={() => navigation.navigate('SignIn', { name: 'Sign In' })}
         >
           Sign in
         </Button>
-      </SafeAreaView>
+      </View>
     </ScrollView>
-  );
-};
-
-export default SignUp;
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  title: {
-    marginBottom: 20,
-  },
-  input: {
-    width: "80%",
-    height: 40,
-    margin: 12,
-    borderWidth: 0,
-    padding: 10,
-  },
-  error: {
-    color: "red",
-  },
-});
+  )
+}
