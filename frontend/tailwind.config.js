@@ -15,6 +15,7 @@ module.exports = {
       "money-green": "#009933",
       "forest-green": "#00661F",
       "magnetic-plum": "#32004c",
+      "error-red": "#DC2626"
     },
   },
   plugins: [],
