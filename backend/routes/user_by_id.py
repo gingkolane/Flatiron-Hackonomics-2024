@@ -27,4 +27,6 @@ class UserById(Resource):
             return {'error': f'Update unsuccessful, {str(e)}'}, 400
 
     def delete(self, id):
-        pass
+        user = User.query.get_or_404(
+            id, description=f"Could not find user {id}"
+        )
