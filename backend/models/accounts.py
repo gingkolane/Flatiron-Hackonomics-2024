@@ -4,6 +4,9 @@ from sqlalchemy_serializer import SerializerMixin
 class Account(db.Model, SerializerMixin):
     __tablename__ = 'accounts'
 
+    serialize_rules = ('-user.accounts',
+                       '-transactions.account')
+
     id = db.Column(db.String(150), primary_key=True)
     name = db.Column(db.String(50), nullable=False)
     balance = db.Column(db.Float, nullable=False)

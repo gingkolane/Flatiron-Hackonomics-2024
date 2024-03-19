@@ -1,9 +1,10 @@
-import {useState} from 'react'
+import { useState } from 'react'
 import { View, Image, ScrollView } from 'react-native'
 import { TextInput, Button, Text } from 'react-native-paper'
 import { Formik } from 'formik'
-import { useAuth } from './AuthContext'
 import * as Yup from 'yup'
+
+import { useAuth } from './AuthContext'
 
 export default function SignUp({ navigation }) {
   const { signup } = useAuth()
@@ -19,7 +20,7 @@ export default function SignUp({ navigation }) {
       .max(50, 'Too Long!')
       .required('Required'),
     zipcode: Yup.string()
-    .matches(/^[0-9]+$/, 'Your 5-digit zipcode must be a number')
+      .matches(/^[0-9]+$/, 'Your 5-digit zipcode must be a number')
       .min(5, 'Your 5-digit zipcode must be a number')
       .max(5, 'Your 5-digit zipcode must be a number')
       .required('Required'),
@@ -111,6 +112,7 @@ export default function SignUp({ navigation }) {
                 onBlur={handleBlur('zipcode')}
                 value={values.zipcode}
                 placeholder='Zipcode'
+                maxLength={5}
                 error={touched.zipcode && errors.zipcode}
                 left={<TextInput.Icon icon='map-marker-radius-outline' />}
               />
@@ -123,6 +125,8 @@ export default function SignUp({ navigation }) {
                 onChangeText={handleChange('email')}
                 onBlur={handleBlur('email')}
                 value={values.email}
+                keyboardType='email-address'
+                autoCapitalize='none'
                 placeholder='Email'
                 error={touched.email && errors.email}
                 left={<TextInput.Icon icon='email' />}
@@ -137,10 +141,15 @@ export default function SignUp({ navigation }) {
                 onBlur={handleBlur('password')}
                 value={values.password}
                 placeholder='Password'
-                secureTextEntry={showPassword}
+                secureTextEntry={!showPassword}
                 error={touched.password && errors.password}
                 left={<TextInput.Icon icon='lock' />}
-                right={<TextInput.Icon icon='eye' onPress={() => setShowPassword(!showPassword)} />}
+                right={
+                  <TextInput.Icon
+                    icon='eye'
+                    onPress={() => setShowPassword(!showPassword)}
+                  />
+                }
               />
               <Text className='text-error-red my-1'>
                 {touched.password && errors.password ? errors.password : ' '}
@@ -158,11 +167,8 @@ export default function SignUp({ navigation }) {
           )}
         </Formik>
         <Text>Already a member? </Text>
-        <Button
-          title='Sign In'
-          onPress={() => navigation.navigate('SignIn', { name: 'Sign In' })}
-        >
-          Sign in
+        <Button onPress={() => navigation.navigate('Login', { name: 'Login' })}>
+          Login
         </Button>
       </View>
     </ScrollView>

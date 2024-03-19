@@ -13,11 +13,13 @@ class User(db.Model, SerializerMixin):
 
     serialize_rules = ('-_password_hash',
                        '-created_at',
-                       '-updated_at',)
+                       '-updated_at',
+                       '-accounts.user',)
 
     id = db.Column(db.Integer, primary_key=True)
     first_name = db.Column(db.String(50), nullable=False)
     last_name = db.Column(db.String(50), nullable=False)
+    zipcode = db.Column(db.String(5), nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     _password_hash = db.Column(db.String(128), nullable=False)
     created_at = db.Column(db.DateTime, server_default=db.func.now())
