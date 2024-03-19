@@ -7,3 +7,13 @@ from flask_jwt_extended import (
     unset_access_cookies,
     unset_refresh_cookies,
 )
+
+class UserById(Resource):
+    def get(self, id):
+        pass
+
+    def patch(self, id):
+        pass
+
+    def delete(self, id):
+        pass
