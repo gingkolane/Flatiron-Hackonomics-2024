@@ -1,178 +1,176 @@
-import React, { createContext, useContext, useState } from "react";
-import { Alert } from "react-native";
+import React, { createContext, useContext, useState } from 'react'
+import { Alert } from 'react-native'
 
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
-const AuthContext = createContext();
+const AuthContext = createContext()
 
-export const useAuth = () => useContext(AuthContext);
+export const useAuth = () => useContext(AuthContext)
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(null)
 
   const getCookie = (name) => {
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
+    const value = `; ${document.cookie}`
+    const parts = value.split(`; ${name}=`)
 
     if (parts.length === 2) {
-      return parts.pop()?.split(";").shift() || "";
+      return parts.pop()?.split(';').shift() || ''
     }
 
-    return "";
-  };
+    return ''
+  }
 
-  const login = async (userInfo, navigation) => {
+  const login = async (credentials, navigation) => {
+    console.log('form values:', credentials)
     try {
-      const csrfToken = await AsyncStorage.getItem("csrfToken");
-      const { email, password } = userInfo;
-      const response = await fetch("http://127.0.0.1:5555/login", {
-        method: "POST",
+      const csrfToken = await AsyncStorage.getItem('csrfToken')
+      const response = await fetch('http://127.0.0.1:5555/api/login', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
-          "X-CSRF-TOKEN": csrfToken,
+          'Content-Type': 'application/json',
+          'X-CSRF-TOKEN': csrfToken,
         },
-        body: JSON.stringify({ email, password }),
-      });
+        body: JSON.stringify(credentials),
+      })
+      console.log(response)
       if (!response.ok) {
-        throw new Error("Login failed");
+        throw new Error('Login failed')
       }
-      const data = await response.json();
-      console.log(data);
+      const data = await response.json()
+      console.log(data)
       if (!data.accessToken || !data.refreshToken) {
-        throw new Error("Missing access tokens");
+        throw new Error('Missing access tokens')
       }
-      await AsyncStorage.setItem("token", data.accessToken);
-      await AsyncStorage.setItem("refreshToken", data.refreshToken);
-      setUser(data);
-      Alert.alert("Login Success", "You're logged in!");
-      navigation.navigate("Dashboard");
+      await AsyncStorage.setItem('token', data.accessToken)
+      await AsyncStorage.setItem('refreshToken', data.refreshToken)
+      setUser(data)
+      Alert.alert('Login Success', "You're logged in!")
+      navigation.navigate('Dashboard')
     } catch (error) {
-      console.error(error.message);
-      Alert.alert("Login Failed", error.message);
+      console.error(error.message)
+      Alert.alert('Login Failed', error.message)
     }
-  };
+  }
 
   const signup = async (values, navigation) => {
+    console.log('form values:', values)
     try {
-      const csrfToken = (await AsyncStorage.getItem("csrfToken")) || "";
-      const response = await fetch("http://127.0.0.1:5555/register", {
-        method: "POST",
+      const csrfToken = (await AsyncStorage.getItem('csrfToken')) || ''
+      const response = await fetch('http://127.0.0.1:5555/api/signup', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
-          "X-CSRF-TOKEN": csrfToken,
+          'Content-Type': 'application/json',
+          'X-CSRF-TOKEN': csrfToken,
         },
         body: JSON.stringify(values),
-      });
+      })
 
-      const data = await response.json();
-      console.log(data);
+      const data = await response.json()
+      console.log(data.accessToken)
+      console.log(data.refreshToken)
       if (!response.ok) {
-        const errorMessage = data.error || "Signup failed due to server error";
-        console.error(errorMessage); // Use console.error for errors
-        Alert.alert("Signup Error", errorMessage);
-        return; // Early return on error
+        const errorMessage = data.error || 'Signup failed due to server error'
+        console.error(errorMessage) // Use console.error for errors
+        Alert.alert('Signup Error', errorMessage)
+        return // Early return on error
       }
 
-      if (
-        data.Success &&
-        data.Success.accessToken &&
-        data.Success.refreshToken
-      ) {
+      if (data.accessToken && data.refreshToken) {
         await AsyncStorage.multiSet([
-          ["token", data.Success.accessToken],
-          ["refreshToken", data.Success.refreshToken],
-        ]);
-
-        setUser(data.Success);
-        navigation.navigate("Dashboard");
+          ['accessToken', data.accessToken],
+          ['refreshToken', data.refreshToken],
+        ])
+        setUser(data)
+        navigation.navigate('Dashboard')
       } else {
-        console.error("Missing tokens in response"); // Use console.error for errors
+        console.error('Missing tokens in response') // Use console.error for errors
         throw new Error(
-          "Signup succeeded, but tokens are missing in the response."
-        );
+          'Signup succeeded, but tokens are missing in the response.'
+        )
       }
     } catch (error) {
-      console.error(error);
+      console.error(error)
       Alert.alert(
-        "Signup Failed",
-        error.message || "An unexpected error occurred. Please try again."
-      );
+        'Signup Failed',
+        error.message || 'An unexpected error occurred. Please try again.'
+      )
     }
-  };
+  }
 
   const logout = async () => {
     try {
       // Example fetch call to notify backend about logout
-      const response = await fetch("http://127.0.0.1:5555/user/logout", {
-        method: "DELETE",
+      const response = await fetch('http://127.0.0.1:5555/user/logout', {
+        method: 'DELETE',
         headers: {
-          Authorization: `Bearer ${await AsyncStorage.getItem("token")}`,
+          Authorization: `Bearer ${await AsyncStorage.getItem('token')}`,
         },
-      });
+      })
       if (response.ok) {
         // Clear AsyncStorage tokens
-        await AsyncStorage.removeItem("token");
-        await AsyncStorage.removeItem("refreshToken");
+        await AsyncStorage.removeItem('token')
+        await AsyncStorage.removeItem('refreshToken')
         // Update user state
-        setUser(null);
+        setUser(null)
         // Optionally navigate to login screen or another appropriate screen
       } else {
-        console.error("Logout failed with response:", response.status);
+        console.error('Logout failed with response:', response.status)
       }
     } catch (error) {
-      console.error("Logout error:", error);
+      console.error('Logout error:', error)
     }
-  };
+  }
   const refreshUser = () => {
-    return fetch("/user", {
-      credentials: "include",
+    return fetch('/user', {
+      credentials: 'include',
     })
       .then((res) => {
         if (res.ok) {
           return res.json().then((data) => {
             if (!loadingLogout) {
-              setUser(data);
-              return true;
+              setUser(data)
+              return true
             }
-          });
+          })
         } else {
           if (res.status === 401) {
-            fetch("/refresh", {
-              method: "POST",
+            fetch('/refresh', {
+              method: 'POST',
               headers: {
-                "Content-Type": "application/json",
+                'Content-Type': 'application/json',
                 Authorization: `Bearer ${refreshToken}`,
-                "X-CSRF-TOKEN": getCookie("csrf_refresh_token"),
+                'X-CSRF-TOKEN': getCookie('csrf_refresh_token'),
               },
-              credentials: "include",
+              credentials: 'include',
             })
               .then((res) => {
                 if (res.ok) {
                   return res.json().then((data) => {
                     if (!loadingLogout) {
-                      setUser(data);
-                      return true;
+                      setUser(data)
+                      return true
                     }
-                  });
+                  })
                 } else {
-                  setUser(null);
-                  return false;
+                  setUser(null)
+                  return false
                 }
               })
               .catch((e) => {
-                console.error(e);
-                return false;
-              });
+                console.error(e)
+                return false
+              })
           } else {
-            return false;
+            return false
           }
         }
       })
       .catch((e) => {
-        console.error(e);
-        return false;
-      });
-  };
+        console.error(e)
+        return false
+      })
+  }
 
   //   const fetchUserNameByID = async () => {
   //     try {
@@ -206,5 +204,5 @@ export const AuthProvider = ({ children }) => {
     >
       {children}
     </AuthContext.Provider>
-  );
-};
+  )
+}

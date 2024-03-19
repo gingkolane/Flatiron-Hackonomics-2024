@@ -12,13 +12,15 @@ from flask_jwt_extended import (
 
 class Signup(Resource):
     def post(self):
-        req = request.get_json()
-        if User.query.filter(User.email == req['email']).first():
-            return {'error': 'Email already exists.'}, 400
         try:
+            req = request.get_json()
+            if User.query.filter(User.email == req['email']).first():
+                return {'error': 'Email already exists.'}, 400
+            
             user = User(
                 first_name=req['first_name'],
                 last_name=req['last_name'],
+                zipcode=req['zipcode'],
                 email=req['email']
             )
             user.password_hash = req['password']
@@ -26,7 +28,10 @@ class Signup(Resource):
             db.session.commit()
             jwt = create_access_token(identity=user.id)
             refresh_token = create_refresh_token(identity=user.id)
-            response = make_response(user.to_dict(), 201)
+            user_data = user.to_dict()
+            user_data['accessToken'] = jwt
+            user_data['refreshToken'] = refresh_token
+            response = make_response(user_data, 201)
             set_access_cookies(response, jwt)
             set_refresh_cookies(response, refresh_token)
             return response

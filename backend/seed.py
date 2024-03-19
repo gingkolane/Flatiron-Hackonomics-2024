@@ -16,23 +16,27 @@ with app.app_context():
     user1 = User(
         first_name='FirstName1',
         last_name='LastName1',
-        email='test1@test.com'
+        email='test1@test.com',
+        zipcode='12345'
     )
-    user1.password_hash = 'Password1'
+    user1.password_hash = 'Password1!'
 
     user2 = User(
         first_name='FirstName2',
         last_name='LastName2',
-        email='test2@test.com'
+        email='test2@test.com',
+        zipcode='12345'
+
     )
-    user2.password_hash = 'Password2'
+    user2.password_hash = 'Password2!'
 
     user3 = User(
         first_name='FirstName3',
         last_name='LastName3',
-        email='test3@test.com'
+        email='test3@test.com',
+        zipcode='12345'
     )
-    user3.password_hash = 'Password3'
+    user3.password_hash = 'Password3!'
 
     db.session.add_all([user1, user2, user3])
     db.session.commit()
@@ -40,20 +44,21 @@ with app.app_context():
     # Create accounts
     print('Creating accounts...')
     account1 = Account(
-        id='QlRwmeljv1fxg3aolDwXSe4Kqwv3RjFwmvbzN',
-        name='Bank1',
-        balance=1000,
+        id='QlRwmeljv1fxg3aolDwXSe4Kqwv3RjFwmvbzN5',
+        name='Bank3',
+        balance=10,
         type='Checking',
-        currency='USD',
+        currency='GBP',
         user_id=user1.id
     )
 
     account2 = Account(
-        id='QlRwmeljv1fxg3aolDwXSe4Kqwv3RjFwmvbzN2',
-        name='Bank2',
-        balance=100,
-        type='Savings',
-        currency='USD',
+        id='QlRwmeljv1fxg3aolDwXSe4Kqwv3RjFwmvbzN6',
+        name='Bank4',
+        balance=70,
+        type='Credit',
+        currency='GBP',
+        limit=300,
         user_id=user1.id
     )
 

@@ -8,6 +8,8 @@ from models.accounts import Account
 class Transaction(db.Model, SerializerMixin):
     __tablename__ = "transactions"
 
+    serialize_rules = ('-account.transactions',)
+
     id = db.Column(db.Integer, primary_key=True)
     transaction_date = db.Column(db.DateTime, server_default=db.func.now())
     name = db.Column(db.String, nullable=False)
