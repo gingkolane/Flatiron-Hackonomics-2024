@@ -30,3 +30,8 @@ class UserById(Resource):
         user = User.query.get_or_404(
             id, description=f"Could not find user {id}"
         )
+        try: 
+            pass
+        except Exception as e:
+            db.session.rollback()
+            return {'error': str(e)}, 400
