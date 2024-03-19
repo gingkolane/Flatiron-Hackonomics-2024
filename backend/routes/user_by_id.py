@@ -15,9 +15,16 @@ class UserById(Resource):
             id, description=f"Could not find user {id}"
         )
         try:
-            pass
+            req = request.get_json()
+            for attr in req:
+                setattr(user, attr, req[attr])
+            db.session.add(user)
+            db.session.commit()
+            user_data = user.to_dict()
+            response = make_response(user_data, 200)
+            return response
         except Exception as e:
-            return {'error': str(e)}, 400
+            return {'error': f'Update unsuccessful, {str(e)}'}, 400
 
     def delete(self, id):
         pass
