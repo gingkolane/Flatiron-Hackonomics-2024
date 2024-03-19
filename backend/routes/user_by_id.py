@@ -9,6 +9,16 @@ from flask_jwt_extended import (
 )
 
 class UserById(Resource):
+    # Get a user by id (Not sure if we will use this but I thought I would add it)
+    def get(self, id):
+        user = User.query.get_or_404(
+            id, description=f"Could not find user {id}"
+        )
+        if user:
+            return user.to_dict()
+        else:
+            return {'error': 'Could not find the user'}, 404
+
     # Update a user's information by id
     def patch(self, id):
         user = User.query.get_or_404(
@@ -26,12 +36,18 @@ class UserById(Resource):
         except Exception as e:
             return {'error': f'Update unsuccessful, {str(e)}'}, 400
 
+    # Delete a user by id
     def delete(self, id):
         user = User.query.get_or_404(
             id, description=f"Could not find user {id}"
         )
         try: 
-            pass
+            db.session.delete(user)
+            db.session.commit()
+            response = make_response({}, 204)
+            unset_access_cookies(response)
+            unset_refresh_cookies(response)
+            return {'message': f'Your account has been deleted'}, 200
         except Exception as e:
             db.session.rollback()
             return {'error': str(e)}, 400
