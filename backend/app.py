@@ -11,12 +11,14 @@ from jwt.exceptions import DecodeError
 from models.users import User
 
 # Route imports
+# Authentication Routes
 from routes.auth.signup import Signup
 from routes.auth.login import Login
 from routes.auth.logout import Logout
 from routes.auth.current_user import CurrentUser
 from routes.auth.refresh import Refresh
-
+# General Routes
+from routes.user_by_id import UserById
 
 # Resources
 api.add_resource(Signup, '/api/signup', endpoint='/api/auth')
@@ -24,6 +26,7 @@ api.add_resource(Login, '/api/login', endpoint='/api/login')
 api.add_resource(Logout, '/api/logout', endpoint='/api/logout')
 api.add_resource(CurrentUser, '/api/currentuser', endpoint='/api/currentuser')
 api.add_resource(Refresh, '/api/refresh', endpoint='/api/refresh')
+api.add_resource(UserById, '/api/users/<int:id>')
 
 
 # Register a callback function that loads a user from your database whenever 
