@@ -11,6 +11,9 @@ from flask_jwt_extended import (
 class UserById(Resource):
     # Update a user's information by id
     def patch(self, id):
+        user = User.query.get_or_404(
+            id, description=f"Could not find user {id}"
+        )
         try:
             pass
         except Exception as e:
