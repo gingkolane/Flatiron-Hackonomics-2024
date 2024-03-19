@@ -9,11 +9,12 @@ from flask_jwt_extended import (
 )
 
 class UserById(Resource):
-    def get(self, id):
-        pass
-
+    # Update a user's information by id
     def patch(self, id):
-        pass
+        try:
+            pass
+        except Exception as e:
+            return {'error': str(e)}, 400
 
     def delete(self, id):
         pass
