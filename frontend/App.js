@@ -1,3 +1,4 @@
+// the new app entry point is /app/index.js (expo router stuff)
 import { PaperProvider } from 'react-native-paper'
 
 import { StatusBar } from 'expo-status-bar'
@@ -109,45 +110,45 @@ export default function App() {
                 }}
               />
               <Stack.Screen
-                name="TransactionDetailPage"
+                name='TransactionDetailPage'
                 component={TransactionDetailPage}
                 options={{
-                  title: "TransactionDetailPage",
+                  title: 'TransactionDetailPage',
                   headerStyle: {
-                    backgroundColor: "#009933",
+                    backgroundColor: '#009933',
                   },
-                  headerTintColor: "#fff",
+                  headerTintColor: '#fff',
                   headerTitleStyle: {
-                    fontWeight: "bold",
+                    fontWeight: 'bold',
                     fontSize: 22,
                   },
-                  headerTitleAlign: "center",
+                  headerTitleAlign: 'center',
 
                   headerShadowVisible: true,
                   headerElevation: 4,
                 }}
               />
               <Stack.Screen
-                name="TransactionDetail"
+                name='TransactionDetail'
                 component={TransactionDetailPage}
                 options={{
-                  title: "TransactionDetailPage",
+                  title: 'TransactionDetailPage',
                   headerStyle: {
-                    backgroundColor: "#009933",
+                    backgroundColor: '#009933',
                   },
-                  headerTintColor: "#fff",
+                  headerTintColor: '#fff',
                   headerTitleStyle: {
-                    fontWeight: "bold",
+                    fontWeight: 'bold',
                     fontSize: 22,
                   },
-                  headerTitleAlign: "center",
+                  headerTitleAlign: 'center',
 
                   headerShadowVisible: true,
                   headerElevation: 4,
                 }}
               />
               <Stack.Screen
-                name="Dashboard"
+                name='Dashboard'
                 component={Dashboard}
                 options={{
                   title: 'Dashboard',
