@@ -22,6 +22,7 @@ class Login(Resource):
                 jwt = create_access_token(identity=user.id)
                 # Manually set refresh token
                 refresh_token = create_refresh_token(identity=user.id)
+                print(jwt, refresh_token)
                 # Prepackage the response using data
                 user_data = user.to_dict() if hasattr(user, 'to_dict') else {}  # Ensure user has a to_dict method or handle accordingly
                 user_data['accessToken'] = jwt
