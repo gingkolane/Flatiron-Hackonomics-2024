@@ -3,7 +3,7 @@ from flask import make_response
 from flask_restful import request, Resource
 from models.accounts import Account
 
-class AccountById(Resource):
+class AccountByUserId(Resource):
     # Get all accounts by user id
     def get(self, user_id):
         # Query all accounts and filter by user id
@@ -37,9 +37,3 @@ class AccountById(Resource):
         except Exception as e:
             db.session.rollback()
             return {'error': f'Could not create new account, {str(e)}'}, 400
-
-    def patch(self, id):
-        pass
-
-    def delete(self, account_id, user_id):
-        pass
