@@ -5,9 +5,9 @@ from models.accounts import Account
 
 class AccountById(Resource):
     # Get all accounts by user id
-    def get(self, id):
+    def get(self, user_id):
         # Query all accounts and filter by user id
-        user_accounts = Account.query.filter(Account.user_id == id).all()
+        user_accounts = Account.query.filter(Account.user_id == user_id).all()
         accounts_list = []
         # Serialize each account object into JSON
         for account in user_accounts:
@@ -16,18 +16,19 @@ class AccountById(Resource):
         return response
 
     # Post a new account using user id
-    def post(self, id):
+    def post(self, user_id):
         try:
             # Get user input data
             data = request.get_json()
             # Create new account
             new_account = Account(
+                id = data['id'],
                 name = data['name'],
                 balance = data['balance'],
                 type = data['type'],
                 limit = data.get('limit', 0.0),
                 currency = data['currency'],
-                user_id = id,
+                user_id = user_id,
             )
             db.session.add(new_account)
             db.session.commit()
