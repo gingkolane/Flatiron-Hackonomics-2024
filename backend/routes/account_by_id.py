@@ -15,9 +15,22 @@ class AccountById(Resource):
         response = make_response(accounts_list, 200)
         return response
 
-    def post(self, user_id):
+    # Post a new account using user id
+    def post(self, id):
         try:
-            pass
+            # Get user input data
+            data = request.get_json()
+            # Create new account
+            new_account = Account(
+                name = data['name'],
+                balance = data['balance'],
+                type = data['type'],
+                limit = data.get('limit', 0.0),
+                currency = data['currency'],
+                user_id = id,
+            )
+            
+
         except Exception as e:
             db.session.rollback()
             return {'error': f'Could not create new account, {str(e)}'}, 400
