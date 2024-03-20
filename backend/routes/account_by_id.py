@@ -29,8 +29,10 @@ class AccountById(Resource):
                 currency = data['currency'],
                 user_id = id,
             )
-            
-
+            db.session.add(new_account)
+            db.session.commit()
+            response = make_response(new_account.to_dict(), 201)
+            return response
         except Exception as e:
             db.session.rollback()
             return {'error': f'Could not create new account, {str(e)}'}, 400
