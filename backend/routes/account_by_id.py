@@ -16,7 +16,11 @@ class AccountById(Resource):
         return response
 
     def post(self, user_id):
-        pass
+        try:
+            pass
+        except Exception as e:
+            db.session.rollback()
+            return {'error': f'Could not create new account, {str(e)}'}, 400
 
     def patch(self, id):
         pass
