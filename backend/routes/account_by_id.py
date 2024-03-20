@@ -11,7 +11,7 @@ class AccountById(Resource):
         accounts_list = []
         # Serialize each account object into JSON
         for account in user_accounts:
-            accounts_list.append(account.to_dict())
+            accounts_list.append(account.to_dict(rules=('-transactions',)))
         response = make_response(accounts_list, 200)
         return response
 
