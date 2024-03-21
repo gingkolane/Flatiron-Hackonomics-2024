@@ -13,7 +13,11 @@ class AccountById(Resource):
     def patch(self, user_id, account_id):
         user_account = Account.query.filter(Account.user_id == user_id, Account.id == account_id).first()
         try:
-            pass
+            req = request.get_json()
+            for attr in req:
+                setattr(user_account, attr, req[attr])
+            db.session.commit()
+            return user_account.to_dict(rules=('-transactions', '-user'))
         except Exception as e:
             return {'error': f'Could not update bank account, {str(e)}'}, 400
 
