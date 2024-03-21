@@ -41,6 +41,12 @@ class Account(db.Model, SerializerMixin):
             raise ValueError('Type of bank account must be between 1 and 50 characters')
         return type
 
+    @validates('limit')
+    def validate_limit(self, key, limit):
+        if not isinstance(limit, float):
+            raise TypeError('Limit must be a float')
+        return limit
+    
     
 
 from models.transactions import Transaction
