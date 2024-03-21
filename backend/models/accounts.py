@@ -47,6 +47,12 @@ class Account(db.Model, SerializerMixin):
             raise TypeError('Limit must be a float')
         return limit
     
-    
+    @validates('currency')
+    def validate_currency(self, key, currency):
+        if not isinstance(currency, str):
+            raise TypeError('Currency must be a string')
+        elif len(currency) < 1 or len(currency) > 3:
+            raise ValueError('Currency must be between 1 and 3 characters')
+        return currency
 
 from models.transactions import Transaction
