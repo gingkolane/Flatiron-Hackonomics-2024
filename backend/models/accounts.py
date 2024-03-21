@@ -27,4 +27,12 @@ class Account(db.Model, SerializerMixin):
             raise ValueError('Name of bank account must be between 1 and 50 characters')
         return name
 
+    @validates('balance')
+    def validate_balance(self, key, balance):
+        if not isinstance(balance, float):
+            raise TypeError('Balance must be a float')
+        return balance
+
+    
+
 from models.transactions import Transaction
