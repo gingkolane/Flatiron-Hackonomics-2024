@@ -29,7 +29,7 @@ api.add_resource(Logout, '/api/logout', endpoint='/api/logout')
 api.add_resource(CurrentUser, '/api/currentuser', endpoint='/api/currentuser')
 api.add_resource(Refresh, '/api/refresh', endpoint='/api/refresh')
 api.add_resource(UserById, '/api/users/<int:id>')
-api.add_resource(AccountById, '/api/users/<int:user_id>/accounts/<int:account_id>')
+api.add_resource(AccountById, '/api/users/<int:user_id>/accounts/<string:account_id>')
 api.add_resource(AccountByUserId, '/api/users/<int:user_id>/accounts')
 
 
