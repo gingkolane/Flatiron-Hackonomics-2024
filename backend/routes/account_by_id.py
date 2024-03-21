@@ -11,7 +11,11 @@ class AccountById(Resource):
 
     # Update bank account information using user id (int) and account id (string)
     def patch(self, user_id, account_id):
-        pass
+        user_account = Account.query.filter(Account.user_id == user_id, Account.id == account_id).first()
+        try:
+            pass
+        except Exception as e:
+            return {'error': f'Could not update bank account, {str(e)}'}, 400
 
     # Delete Specific bank account using user id (int) and account id (string)
     def delete(self, user_id, account_id):
