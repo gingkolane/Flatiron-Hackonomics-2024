@@ -1,5 +1,6 @@
 from app_setup import db
 from sqlalchemy_serializer import SerializerMixin
+from sqlalchemy.orm import validates
 
 class Account(db.Model, SerializerMixin):
     __tablename__ = 'accounts'
@@ -17,5 +18,13 @@ class Account(db.Model, SerializerMixin):
 
     user = db.relationship('User', back_populates='accounts')
     transactions = db.relationship('Transaction', back_populates='account')
+
+    @validates('name')
+    def validate_name(self, key, name):
+        if not isinstance(name, str):
+            raise TypeError('Name of the bank must be a string')
+        elif len(name) < 1 or len(name) > 50:
+            raise ValueError('Name of bank account must be between 1 and 50 characters')
+        return name
 
 from models.transactions import Transaction
