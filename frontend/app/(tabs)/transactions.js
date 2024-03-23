@@ -19,6 +19,9 @@ export default function Tab() {
     { id: 1, date: "2024-03-14", amount: "50.00", category: "Groceries" },
     { id: 2, date: "2024-03-15", amount: "150.00", category: "Utilities" },
     { id: 3, date: "2024-03-16", amount: "20.00", category: "Entertainment" },
+    { id: 4, date: "2024-03-14", amount: "100.00", category: "Groceries" },
+    { id: 5, date: "2024-03-16", amount: "10.00", category: "Entertainment" },
+    { id: 6, date: "2024-03-16", amount: "40.00", category: "Transportation" },
   ];
 
   useEffect(() => {

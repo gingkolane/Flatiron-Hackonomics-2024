@@ -9,7 +9,8 @@ import {
 import { Card, Paragraph } from "react-native-paper";
 import ReceiptScanner from "./ReceiptScanner";
 
-const TransactionPage = ({ navigation }) => { // Ensure navigation is received here
+const TransactionPage = ({ navigation }) => {
+  // Ensure navigation is received here
   const [transactions, setTransactions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isCameraActive, setIsCameraActive] = useState(false);
@@ -19,6 +20,9 @@ const TransactionPage = ({ navigation }) => { // Ensure navigation is received h
     { id: 1, date: "2024-03-14", amount: "50.00", category: "Groceries" },
     { id: 2, date: "2024-03-15", amount: "150.00", category: "Utilities" },
     { id: 3, date: "2024-03-16", amount: "20.00", category: "Entertainment" },
+    { id: 4, date: "2024-03-14", amount: "100.00", category: "Groceries" },
+    { id: 5, date: "2024-03-16", amount: "10.00", category: "Entertainment" },
+    { id: 6, date: "2024-03-16", amount: "40.00", category: "Transportation" },
   ];
 
   useEffect(() => {
@@ -37,11 +41,10 @@ const TransactionPage = ({ navigation }) => { // Ensure navigation is received h
   };
 
   return (
-
     <View style={styles.container}>
       <ReceiptScanner onCameraActiveChange={handleCameraActiveChange} />
-      {!isCameraActive && (
-        isLoading ? (
+      {!isCameraActive &&
+        (isLoading ? (
           <ActivityIndicator size="large" color="#6200ee" />
         ) : (
           <FlatList
@@ -49,7 +52,13 @@ const TransactionPage = ({ navigation }) => { // Ensure navigation is received h
             keyExtractor={(item) => item.id.toString()}
             contentContainerStyle={styles.flatListContent}
             renderItem={({ item }) => (
-              <TouchableOpacity onPress={() => navigation.navigate('TransactionDetail', { transaction: item })}>
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate("TransactionDetail", {
+                    transaction: item,
+                  })
+                }
+              >
                 <Card style={styles.card}>
                   <Card.Content>
                     <Paragraph>Date: {item.date}</Paragraph>
@@ -60,9 +69,7 @@ const TransactionPage = ({ navigation }) => { // Ensure navigation is received h
               </TouchableOpacity>
             )}
           />
-        )
-
-      )}
+        ))}
     </View>
   );
 };
