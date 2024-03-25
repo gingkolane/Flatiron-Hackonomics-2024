@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import { Card, Paragraph } from "react-native-paper";
 import ReceiptScanner from "../../components/ReceiptScanner";
+import { Link } from "expo-router";
 
 export default function Tab() {
   const [transactions, setTransactions] = useState([]);
@@ -46,28 +47,26 @@ export default function Tab() {
         (isLoading ? (
           <ActivityIndicator size="large" color="#6200ee" />
         ) : (
-          <FlatList
-            data={transactions}
-            keyExtractor={(item) => item.id.toString()}
-            contentContainerStyle={styles.flatListContent}
-            renderItem={({ item }) => (
-              <TouchableOpacity
-                onPress={() =>
-                  navigation.navigate("TransactionDetail", {
-                    transaction: item,
-                  })
-                }
-              >
-                <Card style={styles.card}>
-                  <Card.Content>
-                    <Paragraph>Date: {item.date}</Paragraph>
-                    <Paragraph>Amount: {item.amount}</Paragraph>
-                    <Paragraph>Category: {item.category}</Paragraph>
-                  </Card.Content>
-                </Card>
-              </TouchableOpacity>
-            )}
-          />
+          <View className="">
+            <Card className="w-screen shadow-lg p-3 mt-5">
+              <Link href="/transactions/1">
+                <Card.Content>
+                  <Paragraph>Date: </Paragraph>
+                  <Paragraph>Amount: </Paragraph>
+                  <Paragraph>Category: </Paragraph>
+                </Card.Content>
+              </Link>
+            </Card>
+            <Card className="w-screen shadow-lg p-3 mt-5">
+              <Link href="/transactions/2">
+                <Card.Content>
+                  <Paragraph>Date: </Paragraph>
+                  <Paragraph>Amount: </Paragraph>
+                  <Paragraph>Category: </Paragraph>
+                </Card.Content>
+              </Link>
+            </Card>
+          </View>
         ))}
     </View>
   );
