@@ -44,41 +44,41 @@ with app.app_context():
     # Create accounts
     print('Creating accounts...')
     account1 = Account(
-        id='QlRwmeljv1fxg3aolDwXSe4Kqwv3RjFwmvbzN5',
+        id='1',
         name='Bank3',
-        balance=10,
+        balance=10.00,
         type='Checking',
         currency='GBP',
         user_id=user1.id
     )
 
     account2 = Account(
-        id='QlRwmeljv1fxg3aolDwXSe4Kqwv3RjFwmvbzN6',
+        id='2',
         name='Bank4',
-        balance=70,
+        balance=70.00,
         type='Credit',
         currency='GBP',
-        limit=300,
+        limit=300.0,
         user_id=user1.id
     )
 
     account3 = Account(
-        id='QlRwmeljv1fxg3aolDwXSe4Kqwv3RjFwmvbzN3',
-        name='Bank3',
-        balance=10,
+        id='3',
+        name='Bank23',
+        balance=10.00,
         type='Checking',
         currency='GBP',
-        user_id=user2.id
+        user_id=user1.id
     )
 
     account4 = Account(
-        id='QlRwmeljv1fxg3aolDwXSe4Kqwv3RjFwmvbzN4',
+        id='4',
         name='Bank4',
-        balance=70,
+        balance=70.00,
         type='Credit',
         currency='GBP',
-        limit=300,
-        user_id=user2.id
+        limit=300.0,
+        user_id=user1.id
     )
 
     db.session.add_all([account1, account2, account3, account4])

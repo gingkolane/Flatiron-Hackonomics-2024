@@ -1,15 +1,16 @@
-import { useEffect } from 'react'
-import { SplashScreen, Slot, Stack } from 'expo-router'
-import { SafeAreaProvider } from 'react-native-safe-area-context'
-import { PaperProvider } from 'react-native-paper'
-import { DispatchProvider } from '../global-provider'
+import { useEffect } from "react";
+import { SplashScreen, Slot, Stack } from "expo-router";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import { PaperProvider } from "react-native-paper";
+import { DispatchProvider } from "../global-provider";
+import AccountDetails from "./accounts/AccountDetails";
 
-SplashScreen.preventAutoHideAsync()
+SplashScreen.preventAutoHideAsync();
 
 export default function AppLayout() {
   useEffect(() => {
-    SplashScreen.hideAsync()
-  }, [])
+    SplashScreen.hideAsync();
+  }, []);
   return (
     <SafeAreaProvider>
       <PaperProvider>
@@ -17,32 +18,24 @@ export default function AppLayout() {
           <Stack
             screenOptions={{
               headerStyle: {
-                backgroundColor: '#c0ffd0',
+                backgroundColor: "#c0ffd0",
                 headerTitleStyle: {
-                  fontWeight: 'bold',
+                  fontWeight: "bold",
                 },
               },
             }}
           >
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
             <Stack.Screen
-              name='(tabs)'
-              options={{ headerShown: false }}
+              name="index"
+              options={{ headerShown: false, title: "Index" }}
             />
-            <Stack.Screen
-              name='index'
-              options={{ headerShown: false, title: 'Index' }}
-            />
-            <Stack.Screen
-              name='login'
-              options={{ title: 'Login' }}
-            />
-            <Stack.Screen
-              name='signup'
-              options={{ title: 'Sign Up' }}
-            />
+
+            <Stack.Screen name="login" options={{ title: "Login" }} />
+            <Stack.Screen name="signup" options={{ title: "Sign Up" }} />
           </Stack>
         </DispatchProvider>
       </PaperProvider>
     </SafeAreaProvider>
-  )
+  );
 }

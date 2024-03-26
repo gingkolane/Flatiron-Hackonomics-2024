@@ -1,6 +1,14 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Modal, Button, View, Image, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { Camera } from 'expo-camera';
+import React, { useState, useEffect, useRef } from "react";
+import {
+  Modal,
+  Button,
+  View,
+  Image,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
+import { Camera } from "expo-camera";
 
 const ReceiptScanner = ({ onCameraActiveChange }) => {
   const cameraRef = useRef(null);
@@ -11,7 +19,7 @@ const ReceiptScanner = ({ onCameraActiveChange }) => {
   useEffect(() => {
     (async () => {
       const { status } = await Camera.requestCameraPermissionsAsync();
-      setHasPermission(status === 'granted');
+      setHasPermission(status === "granted");
     })();
   }, []);
 
@@ -29,7 +37,7 @@ const ReceiptScanner = ({ onCameraActiveChange }) => {
   };
 
   const handleAcceptPicture = () => {
-    console.log('Picture accepted:', pictureUri);
+    console.log("Picture accepted:", pictureUri);
     setIsCameraActive(false);
     onCameraActiveChange && onCameraActiveChange(false);
     setPictureUri(null);
@@ -50,34 +58,58 @@ const ReceiptScanner = ({ onCameraActiveChange }) => {
   }
 
   if (hasPermission === false) {
-    return <View style={styles.center}><Text>No access to camera</Text></View>;
+    return (
+      <View style={styles.center}>
+        <Text>No access to camera</Text>
+      </View>
+    );
   }
 
   return (
     <View>
-      <TouchableOpacity style={styles.scanButton} onPress={handlePressScanReceipt}>
+      <TouchableOpacity
+        style={styles.scanButton}
+        onPress={handlePressScanReceipt}
+      >
         <Text style={styles.scanButtonText}>Scan Receipt</Text>
       </TouchableOpacity>
       <Modal
         animationType="slide"
         transparent={false}
         visible={isCameraActive}
-        onRequestClose={handleCancelCamera}>
+        onRequestClose={handleCancelCamera}
+      >
         {pictureUri ? (
           <>
-            <Image source={{ uri: pictureUri }} style={styles.fullScreen} resizeMode="contain" />
+            <Image
+              source={{ uri: pictureUri }}
+              style={styles.fullScreen}
+              resizeMode="contain"
+            />
             <View style={styles.buttonContainer}>
               <Button title="Accept" onPress={handleAcceptPicture} />
               <Button title="Retake" onPress={handleRetakePicture} />
-              <Button title="Cancel" onPress={handleCancelCamera} color="#FF0000" />
+              <Button
+                title="Cancel"
+                onPress={handleCancelCamera}
+                color="#FF0000"
+              />
             </View>
           </>
         ) : (
           <>
-            <Camera style={styles.fullScreen} type={Camera.Constants.Type.back} ref={cameraRef} />
+            <Camera
+              style={styles.fullScreen}
+              type={Camera.Constants.Type.back}
+              ref={cameraRef}
+            />
             <View style={styles.buttonContainer}>
               <Button title="Take Picture" onPress={handleTakePicture} />
-              <Button title="Cancel" onPress={handleCancelCamera} color="#FF0000" />
+              <Button
+                title="Cancel"
+                onPress={handleCancelCamera}
+                color="#FF0000"
+              />
             </View>
           </>
         )}
@@ -89,31 +121,31 @@ const ReceiptScanner = ({ onCameraActiveChange }) => {
 const styles = StyleSheet.create({
   fullScreen: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
   buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
+    flexDirection: "row",
+    justifyContent: "space-around",
     padding: 20,
   },
   scanButton: {
-    backgroundColor: '#6200ee',
+    backgroundColor: "#6200ee",
     paddingHorizontal: 20,
     paddingVertical: 10,
     borderRadius: 20,
-    alignSelf: 'center',
+    alignSelf: "center",
     marginTop: 10,
   },
   scanButtonText: {
-    color: '#FFFFFF',
+    color: "#FFFFFF",
     fontSize: 18,
-    textAlign: 'center',
+    textAlign: "center",
   },
   center: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 

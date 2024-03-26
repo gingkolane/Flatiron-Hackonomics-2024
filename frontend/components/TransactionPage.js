@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import { Card, Paragraph } from "react-native-paper";
 import ReceiptScanner from "./ReceiptScanner";
+import { Link } from "expo-router";
 
 const TransactionPage = ({ navigation }) => {
   // Ensure navigation is received here
@@ -52,21 +53,15 @@ const TransactionPage = ({ navigation }) => {
             keyExtractor={(item) => item.id.toString()}
             contentContainerStyle={styles.flatListContent}
             renderItem={({ item }) => (
-              <TouchableOpacity
-                onPress={() =>
-                  navigation.navigate("TransactionDetail", {
-                    transaction: item,
-                  })
-                }
-              >
-                <Card style={styles.card}>
+              <Card style={styles.card}>
+                <Link href="transactions/1">
                   <Card.Content>
                     <Paragraph>Date: {item.date}</Paragraph>
                     <Paragraph>Amount: {item.amount}</Paragraph>
                     <Paragraph>Category: {item.category}</Paragraph>
                   </Card.Content>
-                </Card>
-              </TouchableOpacity>
+                </Link>
+              </Card>
             )}
           />
         ))}

@@ -1,41 +1,56 @@
-import { View, Text } from "react-native";
+import { View, Text, ScrollView, Pressable } from "react-native";
+import { useState, useEffect } from "react";
+import { useNavigation } from "@react-navigation/native";
+import OpenAiChat from "../../components/OpenAiChat";
 import LinkedAccount from "../../components/LinkedAccount";
+import { Button } from "react-native-paper";
+import { Link, router } from "expo-router";
 
 export default function Tab() {
-  const account1_info = {
-    name: "Cash 2",
-    desc: "Selling income",
-    balance: "560 euros",
-  };
-  const account2_info = {
-    name: "Credit card",
-    desc: "Discover Card",
-    balance: "5,000 euros",
-  };
-  const account3_info = {
-    name: "Fidelity",
-    desc: "Retirement fund",
-    balance: "20,000 euros",
-  };
+  const [accountDetails, setAccountDetails] = useState(null);
+
+  useEffect(() => {
+    const userId = "1";
+    const accountId = "1";
+
+    const url = `http://127.0.0.1:5555/api/users/${userId}/accounts/${accountId}`;
+
+    // Fetch account details from your API
+    fetch(url)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setAccountDetails(data);
+        console.log("Data: ", data);
+      })
+      .catch((error) =>
+        console.error("Error fetching account details:", error)
+      );
+  }, []);
 
   return (
-    <View
-      style={{
-        justifyContent: "center",
-        alignItems: "start",
-        flex: 1,
-        marginLeft: 20,
-      }}
-    >
-      <Text className="mb-3 font-bold scale-125 p-2">Manual account</Text>
-      <LinkedAccount account_info={account1_info} />
-      <Text className="mb-3 font-bold scale-125 p-2">Linked Credit cards</Text>
-      <LinkedAccount account_info={account2_info} />
-
-      <Text className="mb-3 font-bold scale-125 p-2">
-        Linked Investment accounts
-      </Text>
-      <LinkedAccount account_info={account3_info} />
-    </View>
+    <ScrollView>
+      <Text>Manual account</Text>
+      {accountDetails ? (
+        <LinkedAccount account={accountDetails} />
+      ) : (
+        <Text>No account details found.</Text>
+      )}
+      <Pressable
+        onPress={() =>
+          router.push({
+            pathname: `/accounts/AddNewAccount/`,
+          })
+        }
+      >
+        <Button className="bg-forest-green">
+          <Text className="text-white">Add a new Account</Text>
+        </Button>
+      </Pressable>
+    </ScrollView>
   );
 }
