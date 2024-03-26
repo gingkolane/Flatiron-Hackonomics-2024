@@ -1,37 +1,43 @@
-import { StyleSheet, Text, View } from "react-native";
 import React, { useEffect, useState } from "react";
+import { View, Text, StyleSheet } from "react-native";
 
 const OpenAiChat = () => {
-  const [response, setResponse] = useState("");
+  const [aiResponse, setAiResponse] = useState("");
+  const [errorMessage, setErrorMessage] = useState(""); // To handle errors
 
   useEffect(() => {
-    const userData = {
-      user: {},
-      achievement: {},
+    const fetchData = async () => {
+      try {
+        const response = await fetch("http://127.0.0.1:5555/api/get-response", {
+          headers: { "Content-Type": "application/json" },
+        });
+        const data = await response.json();
+        console.log("DATA: ", data);
+        setAiResponse(`Ai Data: ${data || "No response"}`);
+      } catch (error) {
+        console.error("Error fetching AI response:", error);
+        setErrorMessage("Failed to fetch AI response. Please try again later.");
+      }
     };
-    fetch("http://127.0.0.1:5555/user/1/achievement", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(userData),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setResponse(data.message);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
+
+    fetchData();
   }, []);
-  console.log(response);
+  console.log("AI Response:", aiResponse);
   return (
-    <View>
-      <Text>{response}</Text>
+    <View style={styles.container}>
+      <Text>OpenAI Chat Response:</Text>
+      <Text style={styles.responseText}>{aiResponse}</Text>
+      {errorMessage ? (
+        <Text style={styles.errorText}>{errorMessage}</Text>
+      ) : null}
     </View>
   );
 };
 
 export default OpenAiChat;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: { padding: 20 },
+  responseText: { marginTop: 10 },
+  errorText: { marginTop: 10, color: "red" },
+});

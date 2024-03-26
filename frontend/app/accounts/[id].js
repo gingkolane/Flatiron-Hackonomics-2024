@@ -7,26 +7,24 @@ import IconCoins from "../../assets/icons/coins.svg";
 import IconTravel from "../../assets/icons/travel.svg";
 import IconWallet from "../../assets/icons/wallet.svg";
 
-const AccountPage = ({ account_info }) => {
-  const { id, name, desc, balance } = useLocalSearchParams();
+const AccountPage = ({}) => {
+  const { id, name, type, limit, currency, balance } = useLocalSearchParams();
 
   return (
-    <View>
-      <Text>
-        AccountPage - {id} {name}
-      </Text>
-      <View className="bg-mint-green h-screen p-5">
-        <Text>Balance: {balance}</Text>
+    <View className="h-screen bg-magnetic-grey">
+      <View className="p-5 ">
         <IconCoins />
+        <Text>Name: {name}</Text>
+        <Text>Balance: ${balance}</Text>
+        <Text>{currency}</Text>
+        <Text>{type}</Text>
+        <Text>{limit}</Text>
       </View>
-      <Text>Name: {name}</Text>
 
       <View>
         <Text>Your recent transactions</Text>
         <View className="flex-row w-full">
           <IconTravel />
-          <Text>{desc}</Text>
-          <Text>03-23-24</Text>
           <IconWallet />
         </View>
       </View>

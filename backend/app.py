@@ -21,7 +21,7 @@ from routes.auth.refresh import Refresh
 from routes.user_by_id import UserById
 from routes.account_by_id import AccountById
 from routes.account_by_user_id import AccountByUserId
-from models.ai_chatbot import OpenAiResponse
+from models.ai_chatbot import GetResponse
 
 # Resources
 api.add_resource(Signup, '/api/signup', endpoint='/api/auth')
@@ -32,8 +32,9 @@ api.add_resource(Refresh, '/api/refresh', endpoint='/api/refresh')
 api.add_resource(UserById, '/api/users/<int:id>')
 api.add_resource(AccountById, '/api/users/<int:user_id>/accounts/<string:account_id>')
 api.add_resource(AccountByUserId, '/api/users/<int:user_id>/accounts')
+api.add_resource(GetResponse, '/api/get-response')
 
-api.add_resource(OpenAiResponse, '/api/user/<string:user_id>/achievement')
+# api.add_resource(OpenAiResponse, '/api/user/<string:user_id>/achievement')
 
 # Register a callback function that loads a user from your database whenever 
 # a protected route is accessed. This should return any python object on a 

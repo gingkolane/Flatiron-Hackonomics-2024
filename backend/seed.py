@@ -64,11 +64,11 @@ with app.app_context():
 
     account3 = Account(
         id='3',
-        name='Bank3',
+        name='Bank23',
         balance=10.00,
         type='Checking',
         currency='GBP',
-        user_id=user2.id
+        user_id=user1.id
     )
 
     account4 = Account(
@@ -78,7 +78,7 @@ with app.app_context():
         type='Credit',
         currency='GBP',
         limit=300.0,
-        user_id=user2.id
+        user_id=user1.id
     )
 
     db.session.add_all([account1, account2, account3, account4])

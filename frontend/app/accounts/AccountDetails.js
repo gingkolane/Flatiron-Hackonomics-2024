@@ -13,7 +13,7 @@ const AccountDetails = ({ route }) => {
   };
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <View className="bg-mint-green h-screen p-5">
+      <View className="h-screen p-5">
         <Text>Balance: {accountInfo.balance}</Text>
         <IconCoins />
       </View>

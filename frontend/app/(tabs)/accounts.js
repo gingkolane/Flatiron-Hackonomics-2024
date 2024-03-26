@@ -5,7 +5,7 @@ import OpenAiChat from "../../components/OpenAiChat";
 import LinkedAccount from "../../components/LinkedAccount";
 
 export default function Tab() {
-  const [accountDetails, setAccountDetails] = useState("");
+  const [accountDetails, setAccountDetails] = useState(null);
 
   useEffect(() => {
     const userId = "1";
@@ -15,9 +15,15 @@ export default function Tab() {
 
     // Fetch account details from your API
     fetch(url)
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
       .then((data) => {
         setAccountDetails(data);
+        console.log("Data: ", data);
       })
       .catch((error) =>
         console.error("Error fetching account details:", error)
@@ -27,14 +33,12 @@ export default function Tab() {
   return (
     <ScrollView>
       <Text>Manual account</Text>
-      {accountDetails.length > 0 ? (
-        accountDetails.map((account, index) => (
-          <LinkedAccount key={index} account_info={account} />
-        ))
+      {accountDetails ? (
+        <LinkedAccount account={accountDetails} />
       ) : (
-        <Text>No accounts found.</Text>
+        <Text>No account details found.</Text>
       )}
-      {/* <OpenAiChat /> */}
+      <OpenAiChat />
     </ScrollView>
   );
 }
