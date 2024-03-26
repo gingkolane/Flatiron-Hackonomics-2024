@@ -1,21 +1,23 @@
 import React, { useState, useEffect } from "react";
 import {
   View,
-  FlatList,
   ActivityIndicator,
   StyleSheet,
   TouchableOpacity,
+  Text,
+  FlatList,
+  Pressable, // Import Text for displaying non-Paragraph elements if needed
 } from "react-native";
-import { Card, Paragraph } from "react-native-paper";
+import { Button, Card, Paragraph } from "react-native-paper";
 import ReceiptScanner from "../../components/ReceiptScanner";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 
 export default function Tab() {
   const [transactions, setTransactions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isCameraActive, setIsCameraActive] = useState(false);
 
-  // Mock data that mimics the structure you expect from your backend
+  // Mock data
   const mockTransactions = [
     { id: 1, date: "2024-03-14", amount: "50.00", category: "Groceries" },
     { id: 2, date: "2024-03-15", amount: "150.00", category: "Utilities" },
@@ -26,19 +28,52 @@ export default function Tab() {
   ];
 
   useEffect(() => {
-    // Simulate fetching data by setting the mock data after a delay
+    // Simulate fetching data
     const timer = setTimeout(() => {
       setTransactions(mockTransactions);
       setIsLoading(false);
-    }, 1000); // 1 second delay to simulate loading
+    }, 1000);
 
-    // Cleanup the timer when the component unmounts
     return () => clearTimeout(timer);
   }, []);
 
   const handleCameraActiveChange = (isActive) => {
-    setIsCameraActive(isActive); // Update based on camera's active state
+    setIsCameraActive(isActive);
   };
+
+  const renderTransaction = ({ item }) => (
+    <TouchableOpacity>
+      <Card style={styles.card}>
+        <Link
+          href={`/transactions/${item.id}`}
+          style={{ textDecoration: "none" }}
+        >
+          <Card.Content>
+            <Paragraph>Date: {item.date}</Paragraph>
+            <Paragraph>Amount: ${item.amount}</Paragraph>
+            <Paragraph>Category: {item.category}</Paragraph>
+          </Card.Content>
+        </Link>
+        <Pressable
+          onPress={() =>
+            router.push({
+              pathname: `/transactions/${item.id}`,
+              params: {
+                id: mockTransactions[(0, 1, 2, 3, 4, 5)].id,
+                amount: mockTransactions[(0, 1, 2, 3, 4, 5)].amount,
+                date: mockTransactions[(0, 1, 2, 3, 4, 5)].date,
+                category: mockTransactions[(0, 1, 2, 3, 4, 5)].category,
+              },
+            })
+          }
+        >
+          <Button className="bg-forest-green">
+            <Text className="text-white">View transaction details</Text>
+          </Button>
+        </Pressable>
+      </Card>
+    </TouchableOpacity>
+  );
 
   return (
     <View style={styles.container}>
@@ -47,26 +82,12 @@ export default function Tab() {
         (isLoading ? (
           <ActivityIndicator size="large" color="#6200ee" />
         ) : (
-          <View className="">
-            <Card className="w-screen shadow-lg p-3 mt-5">
-              <Link href="/transactions/1">
-                <Card.Content>
-                  <Paragraph>Date: </Paragraph>
-                  <Paragraph>Amount: </Paragraph>
-                  <Paragraph>Category: </Paragraph>
-                </Card.Content>
-              </Link>
-            </Card>
-            <Card className="w-screen shadow-lg p-3 mt-5">
-              <Link href="/transactions/2">
-                <Card.Content>
-                  <Paragraph>Date: </Paragraph>
-                  <Paragraph>Amount: </Paragraph>
-                  <Paragraph>Category: </Paragraph>
-                </Card.Content>
-              </Link>
-            </Card>
-          </View>
+          <FlatList
+            data={transactions}
+            renderItem={renderTransaction}
+            keyExtractor={(item) => item.id.toString()}
+            contentContainerStyle={styles.flatListContent}
+          />
         ))}
     </View>
   );

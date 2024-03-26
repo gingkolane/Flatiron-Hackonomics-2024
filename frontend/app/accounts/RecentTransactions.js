@@ -31,7 +31,7 @@ const RecentTransaction = () => {
           <Text style={[styles.electronics, styles.textTypo]}>Travel</Text>
           <Text style={[styles.text, styles.textTypo]}>16-11-23</Text>
 
-          <Text style={[styles.text1, styles.textTypo]}>-5000</Text>
+          <Text style={[styles.text1, styles.textTypo]}> -$50</Text>
           <Image
             style={[styles.ioncardOutlineIcon, styles.outlineIconLayout]}
             resizeMode="cover"
@@ -51,11 +51,11 @@ const RecentTransaction = () => {
             resizeMode="cover"
             source="mdi:shopping-outline.png"
           />
-          {/* <IconTransaction /> */}
+          <IconWallet />
           <Text style={[styles.electronics, styles.textTypo]}>Shopping</Text>
           <Text style={[styles.text, styles.textTypo]}>16-11-23</Text>
 
-          <Text style={[styles.text1, styles.textTypo]}>-5000</Text>
+          <Text style={[styles.text1, styles.textTypo]}> -$50</Text>
           <Image
             style={[styles.ioncardOutlineIcon, styles.outlineIconLayout]}
             resizeMode="cover"
@@ -75,10 +75,10 @@ const RecentTransaction = () => {
             resizeMode="cover"
             source="mdi:shopping-outline.png"
           />
-
+          <IconWallet />
           <Text style={[styles.electronics, styles.textTypo]}>Electronics</Text>
           <Text style={[styles.text, styles.textTypo]}>16-11-23</Text>
-          <Text style={[styles.text1, styles.textTypo]}>-5000</Text>
+          <Text style={[styles.text1, styles.textTypo]}> -$50</Text>
           <Image
             style={[styles.ioncardOutlineIcon, styles.outlineIconLayout]}
             resizeMode="cover"
@@ -102,7 +102,7 @@ const RecentTransaction = () => {
 
           <Text style={[styles.electronics, styles.textTypo]}>Electronics</Text>
           <Text style={[styles.text, styles.textTypo]}>16-11-23</Text>
-          <Text style={[styles.text1, styles.textTypo]}>-5000</Text>
+          <Text style={[styles.text1, styles.textTypo]}> -$50</Text>
           <Image
             style={[styles.ioncardOutlineIcon, styles.outlineIconLayout]}
             resizeMode="cover"
