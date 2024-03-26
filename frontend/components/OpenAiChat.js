@@ -23,17 +23,15 @@ const OpenAiChat = () => {
   }, []);
 
   return (
-    <ScrollView>
+    <ScrollView className="h-fit">
       <View className=" bg-magnetic-grey flex-1 justify-center h-screen">
-        <Text className="mx-auto ">Powered by OpenAI</Text>
         <View className=" bg-mint-green p-5 shadow-lg m-5 rounded-lg">
           <Text className=" text-magnetic-plum">{aiResponse}</Text>
         </View>
-
-        <Text className="mx-auto">
-          {/* Powered by OpenAI */}
-          <OpenAiIcon />
-        </Text>
+        <Text className="mx-auto ">Powered by OpenAI</Text>
+      </View>
+      <View className="mx-auto bg-mint-green shadow-lg rounded-full">
+        <OpenAiIcon />
       </View>
     </ScrollView>
   );

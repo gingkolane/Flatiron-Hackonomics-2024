@@ -25,13 +25,12 @@ achievements = {"retire"}
 
 def get_openai_response(user, achievement):
     response = client.chat.completions.create(
-        model="gpt-3.5-turbo",
-        # response_format={ "type": "json_object" },
+        model="gpt-3.5-turbo-0125",
+        response_format={ "type": "json_object" },
         messages=[
-            {"role": "system", "content": "You are a helpful assistant designed to output JSON."},
+            {"role": "system", "content": "You are a helpful assistant, return JSON."},
 
             {"role": "user", "content": f"My name is Alberto', and I live in '94903'. My goal is to: 'go on vacation' I have $200 extra after my monthly expenses.  How should I spend that? "} ])
-    
     return response.choices[0].message.content
 
 

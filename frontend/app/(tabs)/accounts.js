@@ -1,8 +1,10 @@
-import { View, Text, ScrollView } from "react-native";
+import { View, Text, ScrollView, Pressable } from "react-native";
 import { useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import OpenAiChat from "../../components/OpenAiChat";
 import LinkedAccount from "../../components/LinkedAccount";
+import { Button } from "react-native-paper";
+import { Link, router } from "expo-router";
 
 export default function Tab() {
   const [accountDetails, setAccountDetails] = useState(null);
@@ -38,7 +40,17 @@ export default function Tab() {
       ) : (
         <Text>No account details found.</Text>
       )}
-      <OpenAiChat />
+      <Pressable
+        onPress={() =>
+          router.push({
+            pathname: `/accounts/AddNewAccount/`,
+          })
+        }
+      >
+        <Button className="bg-forest-green">
+          <Text className="text-white">Add a new Account</Text>
+        </Button>
+      </Pressable>
     </ScrollView>
   );
 }
