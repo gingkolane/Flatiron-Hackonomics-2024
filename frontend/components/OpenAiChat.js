@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet } from "react-native";
-
+import { View, Text, StyleSheet, ScrollView } from "react-native";
+import OpenAiIcon from "../assets/icons/openai-svgrepo-com.svg";
 const OpenAiChat = () => {
-  const [aiResponse, setAiResponse] = useState("");
+  const [aiResponse, setAiResponse] = useState(); // Default suggestions to empty array
   const [errorMessage, setErrorMessage] = useState(""); // To handle errors
 
   useEffect(() => {
@@ -12,8 +12,7 @@ const OpenAiChat = () => {
           headers: { "Content-Type": "application/json" },
         });
         const data = await response.json();
-        console.log("DATA: ", data);
-        setAiResponse(`Ai Data: ${data || "No response"}`);
+        setAiResponse(` ${data || "No response"}`);
       } catch (error) {
         console.error("Error fetching AI response:", error);
         setErrorMessage("Failed to fetch AI response. Please try again later.");
@@ -22,15 +21,21 @@ const OpenAiChat = () => {
 
     fetchData();
   }, []);
-  console.log("AI Response:", aiResponse);
+
   return (
-    <View style={styles.container}>
-      <Text>OpenAI Chat Response:</Text>
-      <Text style={styles.responseText}>{aiResponse}</Text>
-      {errorMessage ? (
-        <Text style={styles.errorText}>{errorMessage}</Text>
-      ) : null}
-    </View>
+    <ScrollView>
+      <View className=" bg-magnetic-grey flex-1 justify-center h-screen">
+        <Text className="mx-auto ">Powered by OpenAI</Text>
+        <View className=" bg-mint-green p-5 shadow-lg m-5 rounded-lg">
+          <Text className=" text-magnetic-plum">{aiResponse}</Text>
+        </View>
+
+        <Text className="mx-auto">
+          {/* Powered by OpenAI */}
+          <OpenAiIcon />
+        </Text>
+      </View>
+    </ScrollView>
   );
 };
 
